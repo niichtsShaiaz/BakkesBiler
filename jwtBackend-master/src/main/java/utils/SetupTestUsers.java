@@ -2,6 +2,7 @@ package utils;
 
 import entity.Role;
 import entity.User;
+import entity.Vehicles;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import org.mindrot.jbcrypt.BCrypt;
@@ -33,6 +34,13 @@ public class SetupTestUsers {
           System.out.println("Testing user with wrong password: "+user.verifyPassword("test1"));
           System.out.println("Created TEST Users");
     
+          em.getTransaction().begin();
+          
+          Vehicles vehicles = new Vehicles("mini", "https://avisassets.abgemea.com/.imaging/vehicleDetails_large/dms/avis/fleet/Opel/Corsa/opel_15corsaenjoy5hb5b_sideview.png", "Opel", "Corsa", 2018, "ADV 2020", 5, 5, "manual", true, "CPH airport", 10.50, true);
+          em.persist(vehicles);
+          em.getTransaction().commit();
+          System.out.println("model" + vehicles.getModel());
+          
   }
         
 }
