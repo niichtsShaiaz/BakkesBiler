@@ -7,10 +7,13 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -27,6 +30,8 @@ public class Reservation implements Serializable {
     private String customerMail;
     private String fromDate;
     private String toDate;
+    @ManyToOne
+    private Vehicles vehicles;
     
     public Reservation(){
         
@@ -38,6 +43,16 @@ public class Reservation implements Serializable {
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
+
+    public Vehicles getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(Vehicles vehicles) {
+        this.vehicles = vehicles;
+    }
+    
+    
 
     public String getCompanyTag() {
         return companyTag;

@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
@@ -32,7 +33,7 @@ public class Vehicles implements Serializable {
     private String location;
     private double pricePerDay;
     private boolean isavailable;
-    @OneToMany
+    @OneToMany(mappedBy = "vehicles")
     private List<Reservation> reservations;
 
     public Vehicles() {
@@ -84,9 +85,7 @@ public class Vehicles implements Serializable {
         return category;
     }
 
-    public String getPricture() {
-        return picture;
-    }
+    
 
     public String getMake() {
         return make;

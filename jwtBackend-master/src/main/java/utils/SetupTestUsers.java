@@ -44,6 +44,7 @@ public class SetupTestUsers {
           Vehicles vehicles = new Vehicles("mini", "https://avisassets.abgemea.com/.imaging/vehicleDetails_large/dms/avis/fleet/Opel/Corsa/opel_15corsaenjoy5hb5b_sideview.png", "Opel", "Corsa", 2018, "ADV 2020", 5, 5, "manual", true, "CPH airport", 10.50, true, reservations);
           for(Reservation r : reservations)
           {
+              r.setVehicles(vehicles);
               em.persist(r);
           }
           em.persist(vehicles);

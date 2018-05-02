@@ -6,6 +6,7 @@
 package dto;
 
 import entity.Reservation;
+import entity.Vehicles;
 
 /**
  *
@@ -13,9 +14,37 @@ import entity.Reservation;
  */
 public class ReservationMessage implements JSONMessage<Reservation>{
 
+    private Long id;
+    private String companyTag;
+    private String customerMail;
+    private String fromDate;
+    private String toDate;
+    private long vId;
+
+    public ReservationMessage(Long id, String companyTag, String customerMail, String fromDate, String toDate) {
+        this.id = id;
+        this.companyTag = companyTag;
+        this.customerMail = customerMail;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+    }
+    public ReservationMessage(Reservation r) {
+        this.id = r.getId();
+        this.companyTag = r.getCompanyTag();
+        this.customerMail = r.getCustomerMail();
+        this.fromDate = r.getFromDate();
+        this.toDate = r.getToDate();
+        this.vId = r.getVehicles().getId();
+    }
+    
+
     @Override
     public Reservation toInternal() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Reservation r = new Reservation(companyTag, customerMail, fromDate, toDate);
+        Vehicles v = new Vehicles();
+        v.setId(vId);
+        r.setVehicles(v);
+        return r;
     }
     
 }
