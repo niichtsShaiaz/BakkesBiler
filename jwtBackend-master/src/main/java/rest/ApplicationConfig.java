@@ -61,7 +61,7 @@ public class ApplicationConfig extends Application {
         resources.add(org.eclipse.persistence.jpa.rs.resources.unversioned.PersistenceUnitResource.class);
         resources.add(org.eclipse.persistence.jpa.rs.resources.unversioned.QueryResource.class);
         resources.add(org.eclipse.persistence.jpa.rs.resources.unversioned.SingleResultQueryResource.class);
-        resources.add(rest.CarApiResource.class);
+        resources.add(rest.Api.class);
         resources.add(security.JWTAuthenticationFilter.class);
         resources.add(security.LoginEndpoint.class);
     }

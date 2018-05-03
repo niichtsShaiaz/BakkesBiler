@@ -36,25 +36,9 @@ public class CarFacade
         return cars;
     }
     
-    public Vehicles getCarByRegno(String regno)
-    {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        List<Vehicles> car = em.createQuery("SELECT v FROM Vehicles v WHERE v.regno = '" + regno + "'").getResultList();
-        return car.get(0);
-    }
-    
-    public Vehicles getCarByDate(String regno)
-    {
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        List<Vehicles> car = em.createQuery("SELECT v FROM Vehicles v WHERE v.regno = '" + regno + "'").getResultList();
-        return car.get(0);
-    }
-    
     public static void main(String[] args)
     {
         CarFacade cf = CarFacade.getInstance();
-        System.out.println("--" + cf.getCarByRegno("ADV 2020").toString());
+        System.out.println("--" + cf.getAllCars().toString());
     }
 }

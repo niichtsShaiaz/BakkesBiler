@@ -66,10 +66,10 @@ public class CarMessage implements JSONMessage<Vehicles>{
         this.pricePerDay = v.getPricePerDay();
         this.isavailable = v.isIsavailable();
         this.reservations = new ArrayList<ReservationMessage>();
-        for(Reservation reservation : v.getReservations())
+        /*for(Reservation reservation : v.getReservations())
         {
             this.reservations.add(new ReservationMessage(reservation));
-        }
+        }*/
     }
     
     
@@ -81,7 +81,7 @@ public class CarMessage implements JSONMessage<Vehicles>{
         {
             res.add(r.toInternal());
         }
-        Vehicles v = new Vehicles(category, picture, make, model, year, regno, seats, doors, gearType, aircondition, location, 0, isavailable, res);
+        Vehicles v = new Vehicles(category, picture, make, model, year, regno, seats, doors, gearType, aircondition, location, 0, isavailable);
         return v;
     }
     
