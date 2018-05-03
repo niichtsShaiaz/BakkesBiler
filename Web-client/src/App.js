@@ -1,144 +1,305 @@
 import React, { Component } from "react"
-import facade from "./apiFacade";
-import jwt_decode from 'jwt-decode';
 import {
+    HashRouter as Router,
     Route,
-    HashRouter,
-    Switch
+    Switch,
+    NavLink,
+    Link
 } from 'react-router-dom'
-import { Button, Form, FormGroup, Label, Input, Nav, NavItem, NavLink, Row, Col, Breadcrumb, BreadcrumbItem, Jumbotron} from 'reactstrap';
+import facade from "./apiFacade";
 
-class LogIn extends Component {
+import {Nav, NavItem, Row, Col, Container } from 'reactstrap';
+
+
+const NoMatch = () => (
+    <h1> No Match </h1>
+)
+
+
+const Home = () => (
+    <div>
+        Welcome!
+  </div>
+)
+
+class RentCar extends Component {
     constructor(props) {
         super(props);
-        this.state = { username: "", password: "" }
+        this.state = { location: "Alle", categori: "Alle" }
+
+        this.handleChangeLocation = this.handleChangeLocation.bind(this);
+        this.handleChangeCategori = this.handleChangeCategori.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
-    login = (evt) => {
-        evt.preventDefault();
-        this.props.login(this.state.username, this.state.password);
+    handleChangeLocation(event) {
+        this.setState({ location: event.target.value });
+        if (event.target.value == "All") {
+            this.props.setURL("");
+        } else {
+            this.props.setURL("?location=" + event.target.value);
+        }
     }
-    onChange = (evt) => {
-        this.setState({[evt.target.id]: evt.target.value})
+    handleChangeCategori(event) {
+        this.setState({ categori: event.target.value });
+        if (event.target.value == "All") {
+            this.props.setURL("");
+        } else {
+            this.props.setURL("?category=" + event.target.value);
+        }
+    }
+
+    handleSubmit(event) {
+        alert('submitted: ' + 'loca: ' + this.state.location + ", kate: " + this.state.categori);
+        event.preventDefault();
+    }
+
+    render() {
+        return (
+            <div><div class="row">
+            <div class="col-sm-5"> </div>
+            <div class="col-sm-3">
+                <form>
+                    <div class="form group">
+                        <h1>Welcome</h1>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-4"> </div>
+        </div>
+
+                <div class="row">
+                    <div class="col-sm-5"> </div>
+                    <div class="col-sm-3">
+                        <form>
+                            <div class="form group">
+                                <Link to="/showcars" class="btn btn-info btn-lg">Show All Cars</Link>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-4"> </div>
+                </div>
+
+                <div class="form-group">
+                    &nbsp;
+        </div>
+
+            </div>
+        )
+    }
+}
+
+class Filter extends Component {
+    constructor(props) {
+        super(props);
     }
     render() {
         return (
-            <Row>
-                <Col sm="12" md={{ size: 4, offset: 4 }}>
-                    <Form inline onSubmit={this.login} onChange={this.onChange}>
-                        <FormGroup>
-                            <Label for="username" hidden>Email</Label>
-                            <Input type="username" name="username" id="username" placeholder="Username" />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="password" hidden>Password</Label>
-                            <Input type="password" name="password" id="password" placeholder="Password" />
-                        </FormGroup>
-                        <Button>Login</Button>
-                    </Form>
-                </Col>
-            </Row>
+
+            <div>
+                Hello
+        </div>
+        )
+
+    }
+
+}
+class ShowCars extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { fetchURL: props.fetchURL, dataFromServer: { cars: [] } };
+    }
+    componentDidMount() {
+        facade.fetchAllCars().then(res => this.setState({ dataFromServer: res }));
+        
+       console.log( facade.fetchData());
+
+
+    }
+    render() {
+        var cars = this.state.dataFromServer.cars;
+        var linkTable = cars.map((car) => {
+            return (
+                <tr scope="row" key={car.regno}>
+                    <td>{car.make}</td>
+                    <td>{car.model}</td>
+                    <td>{car.location}</td>
+                    <td>{car.priceperday}</td>
+                    <td><Link to={`details/${car.regno}`} class="btn btn-success">Show Details</Link></td>
+                    <td><Link to="/showcars" class="btn btn-success">Book</Link></td>
+                </tr>
+            )
+        });
+
+        return (
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="well well-sm"> <h3> List of Cars</h3> </div>
+                    <table class="table" key="tableList">
+                        <tbody>
+                            <tr>
+                                <th scope="col">Make</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">PricePerDay</th>
+                                <th scope="col">Details</th>
+                                <th scope="col">Booking</th>
+                            </tr>
+                            {linkTable}
+                        </tbody>
+                    </table>
+                    <br />
+
+                    <Link to="/" class="btn btn-info btn-md">Back</Link>
+
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+
+        )
+    }
+}
+
+class CarDetails extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { fetchURL: props.fetchURL, dataFromServer: {}, regno: props.match.params.regno };
+    }
+    componentDidMount() {
+        facade.fetchSingleCar(this.state.regno).then(res => this.setState({ dataFromServer: res }));
+    }
+    render() {
+        var car = this.state.dataFromServer;
+
+        return (
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="well well-sm"> <h3> Car Details</h3> </div>
+                    <img src={car.logo} width="100px" height="100px" alt="" />
+                    <h2>{car.company}</h2>
+
+                    <table class="table" key="tableList">
+                        <tbody>
+                            <tr>
+                                <th scope="col">Category</th>
+                                <th scope="col">Make</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Year</th>
+                                <th scope="col">Regno</th>
+                                <th scope="col">Seats</th>
+                                <th scope="col">Doors</th>
+                                <th scope="col">Gear</th>
+                                <th scope="col">Aircondition</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">PricePerDay</th>
+                                <th scope="col">Booking</th>
+                            </tr>
+                            <tr scope="row" key={car.regno}>
+                                <td>{car.category}</td>
+                                <td>{car.model}</td>
+                                <td>{car.make}</td>
+                                <td>{car.year}</td>
+                                <td>{car.regno}</td>
+                                <td>{car.seats}</td>
+                                <td>{car.doors}</td>
+                                <td>{car.gear}</td>
+                                <td>{"" + car.aircondition}</td>
+                                <td>{car.location}</td>
+                                <td>{car.priceperday}</td>
+                                {/* <td><Link to={`booking/${car.regno}`} class="btn btn-success">Book</Link></td> */}
+                                <td><Link to='/details/{this.state.regno}' class="btn btn-success">Book</Link></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <img src={car.picture} width="30%" height="30%" alt="" />
+
+                    <br /><br />
+
+
+
+                    <Link to="/showcars" class="btn btn-success">Back</Link>
+
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+
         )
     }
 }
 
 class Header extends Component {
-    render() {
-        return (
-            <Row>
-                <Col xs="10">
-                    <Nav tabs>
-                        <NavItem>
-                            <NavLink href="#">Login</NavLink>
-                        </NavItem>
-                    </Nav>
-                </Col>
-                <Col xs="2">
-                    <Breadcrumb>
-                        <BreadcrumbItem active>Username...</BreadcrumbItem>
-                    </Breadcrumb>
-                </Col>
-            </Row>
-        )
-    }
-}
-
-class FetchSwapi extends Component {
     constructor(props) {
         super(props);
-        var person = facade.fetchPerson;
-        this.state = {pers: person};
-    }
 
-    componentDidMount() {
-        facade.fetchPerson().then(res => this.setState({pers: res}));
-    }
-
-    render() {
-        return (
-            <div class="row">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-4">
-                    <div class="well well-sm"><h4> Name: {this.state.pers.name}</h4></div>
-                    <div class="well well-sm"><h4> Height: {this.state.pers.height} </h4></div>
-                    <div class="well well-sm"><h4> Weight : {this.state.pers.mass} </h4></div>
-                    <div class="well well-sm"><h4> Gender : {this.state.pers.gender} </h4></div>
-                </div>
-                <div class="col-sm-4"></div>
-            </div>
-        )
-    }
-}
-
-class LoggedIn extends Component {
-    constructor(props) {
-        super(props);
-        this.state= {dataFromServer: "Fetching!!"};
-        var userToken = facade.getToken();
-        var decoded = jwt_decode(userToken);
-        var userRoles = decoded.roles;
-        this.state = { dataFromServer: "Fetching!!", userroles: userRoles };
-    }
-    componentDidMount()
-    {
-        facade.fetchData(this.state.userroles).then(res=> this.setState({dataFromServer: res}));
-    }
-
-    render() {
-        return (
-            <Jumbotron>
-                <h1 className="display-3">You are logged in</h1>
-                <hr className="my-2" />
-                <p>{this.state.dataFromServer}</p>
-                <Button onClick={this.logout}>Logout</Button>
-            </Jumbotron>
-        )
-    }
-}
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { loggedIn: false }
-    }
-    logout = () => {
-        facade.logout();
-        this.setState({ loggedIn: false });
-    }
-    login = (user, pass) =>
-    {
-        facade.login(user,pass)
-            .then(res =>this.setState({ loggedIn: true }));
     }
     render() {
         return (
             <div>
-                <Header></Header>
-                {!this.state.loggedIn ? (<LogIn login={this.login} />) :
-                    ( <div>
-                        <LoggedIn/>
-                        <Button onClick={this.logout}>Logout</Button>
-                    </div>)}
+                <Router>
+                    <Row>
+                        <Col>
+                            <Nav Tabs>
+
+                                {/* <a class="navbar-brand">CarMondo</a>*/}
+                                <NavItem>
+                                    <NavLink exact to="/"> Home </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink exact to="/showcars"> Browse </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink exact to="/filter"> Filter </NavLink>
+                                </NavItem>
+                            </Nav>
+                        </Col>
+                    </Row>
+
+                </Router>
             </div>
         )
     }
 }
+
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { loggedIn: false, fetchURL: "" }
+    }
+    setURL = (url) => {
+        this.setState({ fetchURL: url });
+        console.log(url);
+    }
+    render() {
+        return (
+            <div>
+                <div>
+                    <Header />
+
+                    <Router>
+                        <Switch>
+                            <Route exact path="/" render={() => <RentCar setURL={this.setURL} />} />
+                            <Route path="/showcars" render={() => <ShowCars fetchURL={this.state.fetchURL} />} />
+                            <Route path="/details/:regno" render={(props) => <CarDetails {...props} />} />
+                            <Route path="/filter" render={() => <filter fetchURL={this.state.fetchURL} />} />
+                            <Route component={NoMatch} />
+                        </Switch>
+                    </Router>
+                </div>
+
+                <div class="row">
+                    <br />
+                    <div class="col-md-5"></div>
+                    {/* {this.state.loginError &&
+            <span><div class="col-md-2 alert alert-danger"> {this.state.loginError} </div></span>
+              } */}
+                    <div class="col-md-5"></div>
+                </div>
+            </div>
+        )
+    }
+}
+
 export default App;
