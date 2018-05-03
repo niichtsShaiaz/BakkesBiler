@@ -4,6 +4,7 @@ class SortData{
         var result = list.filter(function(car){
             return car.doors == doors;
         });
+        return result
     }
 
     sortCarsBySeats = (seats, list) =>
@@ -11,6 +12,7 @@ class SortData{
         var result = list.filter(function(car){
             return car.seats == seats;
         });
+        return result
     }
 
     sortCarsByGearType = (type, list) =>
@@ -18,6 +20,7 @@ class SortData{
         var result = list.filter(function(car){
             return car.gearType == type;
         });
+        return result
     }
 
     sortCarsByAircondition = (boolean, list) =>
@@ -25,6 +28,7 @@ class SortData{
         var result = list.filter(function(car){
             return car.aircondition == boolean;
         });
+        return result
     }
 
     sortCarsByIsAvailable = (boolean, list) =>
@@ -32,6 +36,7 @@ class SortData{
         var result = list.filter(function(car){
             return car.isavailable == boolean;
         });
+        return result
     }
 
     sortCarsByIsMake = (make, list) =>
@@ -39,5 +44,6 @@ class SortData{
         var result = list.filter(function(car){
             return car.make == make;
         });
+        return result
     }
 }
