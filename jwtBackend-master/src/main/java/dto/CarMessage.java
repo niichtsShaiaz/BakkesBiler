@@ -53,7 +53,7 @@ public class CarMessage implements JSONMessage<Vehicles>{
     public CarMessage(Vehicles v) {
         this.id = v.getId();
         this.category = v.getCategory();
-        this.picture = v.getPricture();
+        this.picture = v.getPicture();
         this.make = v.getMake();
         this.model = v.getModel();
         this.year = v.getYear();
