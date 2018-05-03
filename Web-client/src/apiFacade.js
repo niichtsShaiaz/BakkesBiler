@@ -1,6 +1,6 @@
 //const URL = "http://localhost:8084/jwtbackend";
 
-const URL = "https://ezlinodev.com/cars/api/carApi/";///api/CarApi";
+const URL = "https://ezlinodev.com/cars/api/CarApi/";
 
 function handleHttpErrors(res) {
     if (!res.ok) {

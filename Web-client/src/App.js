@@ -110,9 +110,9 @@ class ShowCars extends Component {
     }
     componentDidMount() {
         facade.fetchAllCars().then(res => this.setState({ dataFromServer: res }));
-        
-       console.log( facade.fetchData());
+        facade.fetchAllCars().then(res => console.log(res[1]));
 
+    
 
     }
     render() {
@@ -141,7 +141,7 @@ class ShowCars extends Component {
                                 <th scope="col">Make</th>
                                 <th scope="col">Model</th>
                                 <th scope="col">Location</th>
-                                <th scope="col">PricePerDay</th>
+                                <th scope="col">Price Per Day</th>
                                 <th scope="col">Details</th>
                                 <th scope="col">Booking</th>
                             </tr>
