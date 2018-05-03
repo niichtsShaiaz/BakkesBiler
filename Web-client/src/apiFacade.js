@@ -8,9 +8,51 @@ function handleHttpErrors(res) {
 }
 
 class ApiFacade {
-    fetchCars = () =>{
+    setToken = (token) => {
+        localStorage.setItem('jwtToken', token)
+    }
+    getToken = () => {
+        return localStorage.getItem('jwtToken')
+    }
+    loggedIn = () => {
+        const loggedIn = this.getToken() != null;
+        return loggedIn;
+    }
+    logout = () => {
+        localStorage.removeItem("jwtToken");
+    }
+
+    login = (user, pass) => {
+        const options = this.makeFetchOptions("POST",{ username: user, password: pass });
+        return fetch(URL+"/api/login",options,true)
+            .then(handleHttpErrors)
+            .then(res=>{this.setToken(res.token)})
+    }
+
+    fetchData = (role) =>{
         const options = this.makeFetchOptions("GET");
-        return fetch(URL+"/api/CarApi").then(handleHttpErrors);
+        return fetch(URL+"/api/info/"+role,options).then(handleHttpErrors);
+    }
+
+    fetchPerson = () => {
+        var number = Math.floor(Math.random() * 88);
+        const options = this.makeFetchOptions("GET");
+        return fetch(URL + "/api/info/people/" + number, options).then(handleHttpErrors);
+    }
+
+    makeFetchOptions = (type, b) => {
+        let headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+        if(this.loggedIn()){
+            headers["x-access-token"] = this.getToken();
+        }
+        return {
+            method: type,
+            headers,
+            body: JSON.stringify(b)
+        }
     }
 }
 const facade = new ApiFacade();

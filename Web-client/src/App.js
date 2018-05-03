@@ -114,7 +114,6 @@ class LoggedIn extends Component {
         )
     }
 }
-/*
 class App extends Component {
     constructor(props) {
         super(props);
@@ -141,28 +140,5 @@ class App extends Component {
             </div>
         )
     }
-}*/
-
-class App extends Comment{
-    render(){
-        return(
-            <h1>hello world!</h1>
-        )
-    }
 }
-
-class BrowserCars extends Comment{
-    render(){
-        return(
-            <h1>Browse</h1>
-        )
-    }
-
-    sortCarsByDors = (dors, list) =>
-    {
-        
-    }
-}
-
-
 export default App;
