@@ -1,9 +1,16 @@
 package rest;
 
+import com.google.gson.Gson;
+import dto.CarMessage;
+import dto.JSONMessage;
+import entity.CarFacade;
+import entity.Vehicles;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
@@ -24,7 +31,9 @@ import javax.ws.rs.core.SecurityContext;
  */
 @Path("cars")
 public class Api {
-
+    CarFacade carFacade = CarFacade.getInstance();
+    Gson gson = new Gson();
+    
     @Context
     private UriInfo context;
     
@@ -35,7 +44,12 @@ public class Api {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getCars(){
-        return "no data yet";
+        List<JSONMessage> cars = new ArrayList<>();
+        for(Vehicles v : carFacade.getAllCars())
+        {
+            cars.add(new CarMessage(v));
+        }
+        return gson.toJson(cars);
     }
     
     @GET

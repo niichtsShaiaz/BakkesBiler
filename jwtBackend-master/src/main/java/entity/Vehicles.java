@@ -23,7 +23,7 @@ public class Vehicles implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String category;
-    private String pricture; 
+    private String picture; 
     private String make;
     private String model;
     private int year;
@@ -41,7 +41,7 @@ public class Vehicles implements Serializable {
 
     public Vehicles( String category, String pricture, String make, String model, int year, String regno, int seats, int doors, String gearType, boolean aircondition, String location, double pricePerDay, boolean isavailable) {
         this.category = category;
-        this.pricture = pricture;
+        this.picture = pricture;
         this.make = make;
         this.model = model;
         this.year = year;
@@ -59,16 +59,14 @@ public class Vehicles implements Serializable {
 
     public Long getId() {
         return id;
-    }
-
- 
+    } 
 
     public String getCategory() {
         return category;
     }
 
-    public String getPricture() {
-        return pricture;
+    public String getpicture() {
+        return picture;
     }
 
     public String getMake() {
@@ -143,7 +141,7 @@ public class Vehicles implements Serializable {
 
     @Override
     public String toString() {
-        return "Vehicles{" + "id=" + id + ", category=" + category + ", pricture=" + pricture + ", make=" + make + ", model=" + model + ", year=" + year + ", regno=" + regno + ", seats=" + seats + ", doors=" + doors + ", gearType=" + gearType + ", aircondition=" + aircondition + ", location=" + location + ", pricePerDay=" + pricePerDay + ", isavailable=" + isavailable + '}';
+        return "Vehicles{" + "id=" + id + ", category=" + category + ", pricture=" + picture + ", make=" + make + ", model=" + model + ", year=" + year + ", regno=" + regno + ", seats=" + seats + ", doors=" + doors + ", gearType=" + gearType + ", aircondition=" + aircondition + ", location=" + location + ", pricePerDay=" + pricePerDay + ", isavailable=" + isavailable + '}';
     }
 
  
