@@ -36,9 +36,20 @@ public class CarFacade
         return cars;
     }
     
+    public Vehicles getCar(String regno)
+    {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        List<Vehicles> cars = em.createQuery("SELECT v from Vehicles v WHERE v.regno = '" + regno + "'").getResultList();
+        em.getTransaction().commit();
+        em.close();
+        
+        return cars.get(0);
+    }
+    
     public static void main(String[] args)
     {
         CarFacade cf = CarFacade.getInstance();
-        System.out.println("--" + cf.getAllCars().toString());
+        System.out.println("--" + cf.getCar("e_2020").toString());
     }
 }

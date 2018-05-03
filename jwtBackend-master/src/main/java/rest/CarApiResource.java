@@ -19,6 +19,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -52,5 +54,14 @@ public class CarApiResource
             cars.add(new CarMessage(v));
         }
         return gson.toJson(cars);
+    }
+    
+    @GET
+    @Path("{regno}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getCarByRegno(@PathParam("regno") String regno)
+    {
+        JSONMessage car = new CarMessage(carFacade.getCar(regno));
+        return gson.toJson(car);
     }
 }
