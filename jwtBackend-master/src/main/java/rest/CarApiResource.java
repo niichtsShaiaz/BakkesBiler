@@ -5,6 +5,13 @@
  */
 package rest;
 
+import com.google.gson.Gson;
+import dto.CarMessage;
+import dto.JSONMessage;
+import entity.CarFacade;
+import entity.Vehicles;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -19,38 +26,31 @@ import javax.ws.rs.core.MediaType;
  *
  * @author ezl
  */
-@Path("generic")
-public class GenericResource
+@Path("CarApi")
+public class CarApiResource
 {
+    CarFacade carFacade = CarFacade.getInstance();
+    Gson gson = new Gson();
 
     @Context
     private UriInfo context;
 
     /**
-     * Creates a new instance of GenericResource
+     * Creates a new instance of CarApiResource
      */
-    public GenericResource()
+    public CarApiResource()
     {
     }
 
-    /**
-     * Retrieves representation of an instance of rest.GenericResource
-     * @return an instance of java.lang.String
-     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson()
+    public String getAllCars()
     {
-        return "ss";
-    }
-
-    /**
-     * PUT method for updating or creating an instance of GenericResource
-     * @param content representation for the resource
-     */
-    @PUT
-    @Consumes(MediaType.APPLICATION_XML)
-    public void putXml(String content)
-    {
+        List<JSONMessage> cars = new ArrayList<>();
+        for(Vehicles v : carFacade.getAllCars())
+        {
+            cars.add(new CarMessage(v));
+        }
+        return gson.toJson(cars);
     }
 }
