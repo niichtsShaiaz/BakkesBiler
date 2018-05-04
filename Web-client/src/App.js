@@ -6,7 +6,7 @@ import {
     NavLink,
     Link
 } from 'react-router-dom'
-import facade from "./apiFacade";
+import facade from "./testing/apiFacadeTest";
 
 import {Nav, NavItem, Row, Col, Container } from 'reactstrap';
 
@@ -106,17 +106,16 @@ class Filter extends Component {
 class ShowCars extends Component {
     constructor(props) {
         super(props);
-        this.state = { fetchURL: props.fetchURL, dataFromServer: { cars: [] } };
+        this.state = { dataFromServer: []  };
     }
     componentDidMount() {
         facade.fetchAllCars().then(res => this.setState({ dataFromServer: res }));
-        facade.fetchAllCars().then(res => console.log(res[1]));
-
-    
 
     }
     render() {
-        var cars = this.state.dataFromServer.cars;
+
+        var cars = this.state.dataFromServer;
+        console.log(cars);
         var linkTable = cars.map((car) => {
             return (
                 <tr scope="row" key={car.regno}>
@@ -131,11 +130,11 @@ class ShowCars extends Component {
         });
 
         return (
-            <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
-                    <div class="well well-sm"> <h3> List of Cars</h3> </div>
-                    <table class="table" key="tableList">
+            <div className="row">
+                <div className="col-sm-2"></div>
+                <div className="col-sm-8">
+                    <div className="well well-sm"> <h3> List of Cars</h3> </div>
+                    <table className="table" key="tableList">
                         <tbody>
                             <tr>
                                 <th scope="col">Make</th>
@@ -150,7 +149,7 @@ class ShowCars extends Component {
                     </table>
                     <br />
 
-                    <Link to="/" class="btn btn-info btn-md">Back</Link>
+                    <Link to="/" className="btn btn-info btn-md">Back</Link>
 
                 </div>
                 <div class="col-sm-2"></div>
@@ -172,14 +171,14 @@ class CarDetails extends Component {
         var car = this.state.dataFromServer;
 
         return (
-            <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
-                    <div class="well well-sm"> <h3> Car Details</h3> </div>
+            <div className="row">
+                <div className="col-sm-2"></div>
+                <div className="col-sm-8">
+                    <div className="well well-sm"> <h3> Car Details</h3> </div>
                     <img src={car.logo} width="100px" height="100px" alt="" />
                     <h2>{car.company}</h2>
 
-                    <table class="table" key="tableList">
+                    <table className="table" key="tableList">
                         <tbody>
                             <tr>
                                 <th scope="col">Category</th>

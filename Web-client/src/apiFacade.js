@@ -37,8 +37,7 @@ class ApiFacade {
     }
 
     fetchAllCars = () => {
-        const options = this.makeFetchOptions("GET");
-        return fetch(URL ,options).then(handleHttpErrors);
+        return fetch(URL).then(handleHttpErrors);
     }
 
     makeFetchOptions = (type, b) => {
