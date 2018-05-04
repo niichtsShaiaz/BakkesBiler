@@ -1,49 +1,40 @@
 class SortData{
     sortCarsByDoors = (doors, list) =>
     {
-        var result = list.filter(function(car){
-            return car.doors == doors;
-        });
-        return result
+        var _ = require('lodash');
+        return _.filter(list, {'doors' : doors});
     }
 
     sortCarsBySeats = (seats, list) =>
     {
-        var result = list.filter(function(car){
-            return car.seats == seats;
-        });
-        return result
+        var _ = require('lodash');
+        return _.filter(list, {'seats' : seats});
     }
 
     sortCarsByGearType = (type, list) =>
     {
-        var result = list.filter(function(car){
-            return car.gearType == type;
-        });
-        return result
+        var _ = require('lodash');
+        return _.filter(list, {'gearType' : type});
     }
 
     sortCarsByAircondition = (boolean, list) =>
     {
-        var result = list.filter(function(car){
-            return car.aircondition == boolean;
-        });
-        return result
+        var _ = require('lodash');
+        return _.filter(list, {'aircondition' : boolean});
     }
 
     sortCarsByIsAvailable = (boolean, list) =>
     {
-        var result = list.filter(function(car){
-            return car.isavailable == boolean;
-        });
-        return result
+        var _ = require('lodash');
+        return _.filter(list, {'isavailable' : boolean});
     }
 
     sortCarsByIsMake = (make, list) =>
     {
-        var result = list.filter(function(car){
-            return car.make == make;
-        });
-        return result
+        var _ = require('lodash');
+        return _.filter(list, {'make' : make});
     }
 }
+
+const sort = new SortData();
+export default sort;
