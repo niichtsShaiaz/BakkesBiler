@@ -1,11 +1,14 @@
 package utils;
 
+import entity.Reservation;
 import entity.Role;
 import entity.User;
 import entity.Vehicles;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
-import org.mindrot.jbcrypt.BCrypt;
+//import org.mindrot.jbcrypt.BCrypt;
 
 
 public class SetupTestUsers {
@@ -32,10 +35,28 @@ public class SetupTestUsers {
 //          System.out.println("PW: "+user.getUserPass());
 //          System.out.println("Testing user with OK password: "+user.verifyPassword("test"));
 //          System.out.println("Testing user with wrong password: "+user.verifyPassword("test1"));
+<<<<<<< HEAD
 //          System.out.println("Created TEST Users");
     
     
           
+=======
+          System.out.println("Created TEST Users");
+    
+           em.getTransaction().begin();
+          List<Reservation> reservations = new ArrayList<Reservation>();
+          reservations.add(new Reservation("Bakkes Biler", "jonatanatbakke.net", "02/05/2018", "03/06/2018"));
+          
+          Vehicles vehicles = new Vehicles("mini", "https://avisassets.abgemea.com/.imaging/vehicleDetails_large/dms/avis/fleet/Opel/Corsa/opel_15corsaenjoy5hb5b_sideview.png", "Opel", "Corsa", 2018, "ADV 2020", 5, 5, "manual", true, "CPH airport", 10.50, true, reservations);
+          for(Reservation r : reservations)
+          {
+              r.setVehicles(vehicles);
+              em.persist(r);
+          }
+          em.persist(vehicles);
+          em.getTransaction().commit();
+          System.out.println("model" + vehicles.getModel());
+>>>>>>> origin/dev1
           
 
 

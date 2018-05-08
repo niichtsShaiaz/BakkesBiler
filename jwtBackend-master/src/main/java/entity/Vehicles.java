@@ -1,15 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -23,7 +21,7 @@ public class Vehicles implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String category;
-    private String pricture; 
+    private String picture; 
     private String make;
     private String model;
     private int year;
@@ -35,13 +33,16 @@ public class Vehicles implements Serializable {
     private String location;
     private double pricePerDay;
     private boolean isavailable;
+    @OneToMany(mappedBy = "vehicles")
+    private List<Reservation> reservations;
 
     public Vehicles() {
     }
 
-    public Vehicles( String category, String pricture, String make, String model, int year, String regno, int seats, int doors, String gearType, boolean aircondition, String location, double pricePerDay, boolean isavailable) {
+
+    public Vehicles(String category, String picture, String make, String model, int year, String regno, int seats, int doors, String gearType, boolean aircondition, String location, double pricePerDay, boolean isavailable, List<Reservation> reservations) {
         this.category = category;
-        this.pricture = pricture;
+        this.picture = picture;
         this.make = make;
         this.model = model;
         this.year = year;
@@ -53,6 +54,23 @@ public class Vehicles implements Serializable {
         this.location = location;
         this.pricePerDay = pricePerDay;
         this.isavailable = isavailable;
+        this.reservations = reservations;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
     
     
@@ -67,9 +85,7 @@ public class Vehicles implements Serializable {
         return category;
     }
 
-    public String getPricture() {
-        return pricture;
-    }
+    
 
     public String getMake() {
         return make;
@@ -143,7 +159,7 @@ public class Vehicles implements Serializable {
 
     @Override
     public String toString() {
-        return "Vehicles{" + "id=" + id + ", category=" + category + ", pricture=" + pricture + ", make=" + make + ", model=" + model + ", year=" + year + ", regno=" + regno + ", seats=" + seats + ", doors=" + doors + ", gearType=" + gearType + ", aircondition=" + aircondition + ", location=" + location + ", pricePerDay=" + pricePerDay + ", isavailable=" + isavailable + '}';
+        return "Vehicles{" + "id=" + id + ", category=" + category + ", pricture=" + picture + ", make=" + make + ", model=" + model + ", year=" + year + ", regno=" + regno + ", seats=" + seats + ", doors=" + doors + ", gearType=" + gearType + ", aircondition=" + aircondition + ", location=" + location + ", pricePerDay=" + pricePerDay + ", isavailable=" + isavailable + '}';
     }
 
  

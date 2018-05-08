@@ -1,4 +1,6 @@
-const URL = "http://localhost:8084/jwtbackend";
+//const URL = "http://localhost:8084/jwtbackend";
+
+const URL = "https://ezlinodev.com/cars/api/CarApi/";
 
 function handleHttpErrors(res) {
     if (!res.ok) {
@@ -29,15 +31,13 @@ class ApiFacade {
             .then(res=>{this.setToken(res.token)})
     }
 
-    fetchData = (role) =>{
+    fetchData = () =>{
         const options = this.makeFetchOptions("GET");
-        return fetch(URL+"/api/info/"+role,options).then(handleHttpErrors);
+        return fetch("https://swapi.co/api/people/1",options).then(handleHttpErrors);
     }
 
-    fetchPerson = () => {
-        var number = Math.floor(Math.random() * 88);
-        const options = this.makeFetchOptions("GET");
-        return fetch(URL + "/api/info/people/" + number, options).then(handleHttpErrors);
+    fetchAllCars = () => {
+        return fetch(URL).then(handleHttpErrors);
     }
 
     makeFetchOptions = (type, b) => {
