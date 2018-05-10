@@ -66,11 +66,14 @@ public class CarApiResource
         return gson.toJson(car);
     }
     
-    @POST
+    @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public void addCar(String jsonString)
     {
-        
+        System.out.println("jsonString: " + jsonString);
+        CarMessage carMsg = gson.fromJson(jsonString, CarMessage.class);
+        Vehicles car = carMsg.toInternal();
+        carFacade.addCar(car);
     }
     
 }

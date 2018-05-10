@@ -1,6 +1,20 @@
 import React, { Component } from "react"
+import {
+    HashRouter as Router,
+    Route,
+    Switch,
+    NavLink
+} from 'react-router-dom'
 
-import { Button, Form, FormGroup, Label, Input, Nav, NavItem, NavLink, Row, Col, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Nav, NavItem, Row, Col } from 'reactstrap';
+
+import adminAddCar from "./adminAddCar";
+
+const NoMatch = () => (
+    <h1> No Match </h1>
+)
+
+
 class adminPage extends Component {
     constructor(props) {
         super(props);
@@ -8,70 +22,33 @@ class adminPage extends Component {
     }
     render() {
         return (
-            <Form>
-                <FormGroup Inline>
-                    <Label for="make">Make: </Label>
-                    <Input type="text" name="make" id="make" placeholder="Make" />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="model">Model: </Label>
-                    <Input type="text" name="model" id="model" placeholder="Model" />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="year">Year: </Label>
-                    <Input type="number" name="year" id="year" placeholder="Year" />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="regno">Regno: </Label>
-                    <Input type="number" name="regno" id="regno" placeholder="Regno" />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="seats">Steats: </Label>
-                    <Input type="number" name="steats" id="steats" placeholder="Steats" />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="doors">Doors: </Label>
-                    <Input type="number" name="doors" id="doors" placeholder="Doors" />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="seats">Steats: </Label>
-                    <Input type="number" name="steats" id="steats" placeholder="Steats" />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="gearType">Gear Type:</Label>
-                    <Input type="select" name="gearType" id="gearType">
-                        <option>MANUAL</option>
-                        <option>AUTO</option>
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="airconditon">Airconditon:</Label>
-                    <Input type="select" name="gearType" id="gearType">
-                        <option>Has Airconditon</option>
-                        <option>Does Not Have Airconditon</option>
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="location">Location:</Label>
-                    <Input type="select" name="location" id="location">
-                        <option>Cph (Copenhagen Airport)</option>
-                        <option>Billund Lufthavn</option>
-                        <option>Aalborg Lufthavn</option>
-                        <option>Copenhagen City </option>
-                        <option>Aarhus City </option>
-                        <option>Odense</option>
-                        <option>Herning</option>
-                        <option>Roskilde</option>
-                        <option>Esbjerg</option>
-                        <option>Naestved</option>
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="pricePerDay">Price/Day: </Label>
-                    <Input type="number" name="pricePerDay" id="pricePerDay" placeholder="Price/Day" />
-                </FormGroup>
-                <Button>Add Car</Button>
-            </Form>
+            <div>
+                <Router>
+                    <Row>
+                        <Col>
+                            <Nav Tabs>
+
+                                {/* <a class="navbar-brand">CarMondo</a>*/}
+                                <NavItem>
+                                    <NavLink exact to="/adminPage"> AdminPage </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink exact to="/adminPage/addCar"> Add Car </NavLink>
+                                </NavItem>
+                            </Nav>
+                        </Col>
+                    </Row>
+
+                </Router>
+
+                <Router>
+                    <Switch>
+                        <Route exact path="/adminPage" render={() => <div>Admin Page</div>} />
+                        <Route path="/adminPage/addCar"  component={adminAddCar}/>
+                        <Route component={NoMatch} />
+                    </Switch>
+                </Router>
+            </div>
         )
     }
 }
