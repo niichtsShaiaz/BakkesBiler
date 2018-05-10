@@ -1,14 +1,12 @@
 class Search{
     filterCarsBySearchMake(string, list)
     {
-        var _ = require('lodash');
-        return _.filter(list, {'make' : string});
+        return list.filter(car => car.make.includes(string))
     }
 
     filterCarsBySearchModel(string, list)
     {
-        var _ = require('lodash');
-        return _.filter(list, {'model' : string});
+        return list.filter(car => car.model.includes(string))
     }
 }
 
