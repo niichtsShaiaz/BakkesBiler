@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 import facade from "./testing/apiFacadeTest";
 
-import {Nav, NavItem, Row, Col, Container } from 'reactstrap';
+import { Nav, NavItem, Row, Col, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown, FormGroup, Label, Input, Button } from 'reactstrap';
 
 
 const NoMatch = () => (
@@ -56,16 +56,16 @@ class RentCar extends Component {
     render() {
         return (
             <div><div class="row">
-            <div class="col-sm-5"> </div>
-            <div class="col-sm-3">
-                <form>
-                    <div class="form group">
-                        <h1>Welcome</h1>
-                    </div>
-                </form>
+                <div class="col-sm-5"> </div>
+                <div class="col-sm-3">
+                    <form>
+                        <div class="form group">
+                            <h1>Welcome</h1>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-4"> </div>
             </div>
-            <div class="col-sm-4"> </div>
-        </div>
 
                 <div class="row">
                     <div class="col-sm-5"> </div>
@@ -88,25 +88,10 @@ class RentCar extends Component {
     }
 }
 
-class Filter extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-
-            <div>
-                Hello
-        </div>
-        )
-
-    }
-
-}
 class ShowCars extends Component {
     constructor(props) {
         super(props);
-        this.state = { dataFromServer: []  };
+        this.state = { dataFromServer: [] };
     }
     componentDidMount() {
         facade.fetchAllCars().then(res => this.setState({ dataFromServer: res }));
@@ -130,7 +115,11 @@ class ShowCars extends Component {
         });
 
         return (
-            <div className="row">
+            <container>
+            <div className="">
+            <div className="col-sm-2">
+                <FilterForm></FilterForm>
+                </div>
                 <div className="col-sm-2"></div>
                 <div className="col-sm-8">
                     <div className="well well-sm"> <h3> List of Cars</h3> </div>
@@ -152,8 +141,9 @@ class ShowCars extends Component {
                     <Link to="/" className="btn btn-info btn-md">Back</Link>
 
                 </div>
-                <div class="col-sm-2"></div>
+                <div class="col-sm-2"></div>    
             </div>
+            </container>
 
         )
     }
@@ -262,6 +252,89 @@ class Header extends Component {
     }
 }
 
+class FilterSidebar extends Component {
+    constructor(props) {
+        super(props);
+        this.toggle = this.toggle.bind(this);
+        this.select = this.select.bind(this);
+        this.state = {
+            dropdownOpen: false,
+            value: "Brand"
+        };
+    }
+
+    toggle() {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen
+        });
+    }
+
+    select(event) {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen,
+            value: event.target.innerText
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                    <DropdownToggle>{this.state.value}</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem onClick={this.select}>Opel</DropdownItem>
+                        <DropdownItem onClick={this.select}>Toyota</DropdownItem>
+                    </DropdownMenu>
+                </ButtonDropdown>
+            </div>
+        );
+    }
+}
+
+class FilterForm extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div>
+                <form>
+                <FormGroup>
+                    <Label for="BrandFilter">Brand</Label>
+                    <Input type="select" name="select" id="BrandFilter">
+                        <option></option>
+                        <option>Toyota</option>
+                        <option>Opel</option>
+                    </Input>
+                </FormGroup>
+                <FormGroup>
+                    <Label for="DoorFilter">Doors</Label>
+                    <Input type="select" name="select" id="DoorFilter">
+                        <option></option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </Input>
+                </FormGroup>
+                <FormGroup> 
+                    <Label for="SeatFilter">Seats</Label>
+                    <Input type="select" name="select" id="SeatFilter">
+                        <option></option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </Input>
+                </FormGroup>
+                <Button>Submit</Button>
+                </form>
+            </div>
+        );
+    }
+}
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -282,7 +355,8 @@ class App extends Component {
                             <Route exact path="/" render={() => <RentCar setURL={this.setURL} />} />
                             <Route path="/showcars" render={() => <ShowCars fetchURL={this.state.fetchURL} />} />
                             <Route path="/details/:regno" render={(props) => <CarDetails {...props} />} />
-                            <Route path="/filter" render={() => <filter fetchURL={this.state.fetchURL} />} />
+
+                            <Route path="/test" component={FilterSidebar} />} />
                             <Route component={NoMatch} />
                         </Switch>
                     </Router>
@@ -291,9 +365,6 @@ class App extends Component {
                 <div class="row">
                     <br />
                     <div class="col-md-5"></div>
-                    {/* {this.state.loginError &&
-            <span><div class="col-md-2 alert alert-danger"> {this.state.loginError} </div></span>
-              } */}
                     <div class="col-md-5"></div>
                 </div>
             </div>
