@@ -7,15 +7,12 @@ import {
     Link
 } from 'react-router-dom'
 import facade from "./testing/apiFacadeTest";
-
+import sort from "./Sort";
 import { Nav, NavItem, Row, Col, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown, FormGroup, Label, Input, Button } from 'reactstrap';
-
 
 const NoMatch = () => (
     <h1> No Match </h1>
 )
-
-
 const Home = () => (
     <div>
         Welcome!
@@ -91,15 +88,50 @@ class RentCar extends Component {
 class ShowCars extends Component {
     constructor(props) {
         super(props);
-        this.state = { dataFromServer: [] };
+        this.state = {
+            AllCars: [],
+            list: [],
+            doors: "",
+            seats: "",
+            make: "",
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.ResetFilters = this.ResetFilters.bind(this);
+        this.Onsubmit = this.Onsubmit.bind(this);
     }
     componentDidMount() {
-        facade.fetchAllCars().then(res => this.setState({ dataFromServer: res }));
+        facade.fetchAllCars().then(res => this.setState({ AllCars: res }));
+        facade.fetchAllCars().then(res => this.setState({ list: res }));
 
+    }
+    handleChange(event) {
+        this.setState({ doors: event.target.value });
+    }
+
+    Onsubmit() {
+        if (this.state.doors != "") {
+            var list2 = sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list);
+            this.setState({ list: list2 })
+        }
+        if (this.state.seats != "") {
+            var list2 = sort.sortCarsBySeats(parseInt(this.state.seats), this.state.list);
+            this.setState({ list: list2 })
+        }
+        if (this.state.make != "") {
+            console.log(this.state.make);
+            var list2 = sort.sortCarsByIsMake(this.state.make, this.state.list);
+            console.log(list2);
+            this.setState({ list: list2 })
+        }
+
+    }
+    ResetFilters(event) {
+        this.setState({ list: this.state.AllCars })
+        this.refs.form.reset();
     }
     render() {
 
-        var cars = this.state.dataFromServer;
+        var cars = this.state.list;
         console.log(cars);
         var linkTable = cars.map((car) => {
             return (
@@ -116,33 +148,64 @@ class ShowCars extends Component {
 
         return (
             <container>
-            <div className="">
-            <div className="col-sm-2">
-                <FilterForm></FilterForm>
-                </div>
-                <div className="col-sm-2"></div>
-                <div className="col-sm-8">
-                    <div className="well well-sm"> <h3> List of Cars</h3> </div>
-                    <table className="table" key="tableList">
-                        <tbody>
-                            <tr>
-                                <th scope="col">Make</th>
-                                <th scope="col">Model</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Price Per Day</th>
-                                <th scope="col">Details</th>
-                                <th scope="col">Booking</th>
-                            </tr>
-                            {linkTable}
-                        </tbody>
-                    </table>
-                    <br />
+                <div className="">
+                    <div className="col-sm-2">
+                        <form onChange={this.handleChange} ref="form">
+                            <FormGroup>
+                                <Label for="BrandFilter">Brand</Label>
+                                <Input type="select" name="BrandFilter" id="BrandFilter" onChange={e => this.setState({ make: e.target.value })}>
+                                    <option></option>
+                                    <option>Toyota</option>
+                                    <option>Opel</option>
+                                </Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="DoorFilter">Doors</Label>
+                                <Input type="select" name="DoorFilter" id="DoorFilter" onChange={e => this.setState({ doors: e.target.value })}>
+                                    <option></option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="SeatFilter">Seats</Label>
+                                <Input type="select" name="SeatFilter" id="SeatFilter" onChange={e => this.setState({ seats: e.target.value })}>
+                                    <option></option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </Input>
+                            </FormGroup>
+                            <Button onClick={this.Onsubmit}>Submit</Button>
+                        </form>
+                        <Button onClick={this.ResetFilters} >Reset Filters</Button>
+                    </div>
+                    <div className="col-sm-2"></div>
+                    <div className="col-sm-8">
+                        <div className="well well-sm"> <h3> List of Cars</h3> </div>
+                        <table className="table" key="tableList">
+                            <tbody>
+                                <tr>
+                                    <th scope="col">Make</th>
+                                    <th scope="col">Model</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Price Per Day</th>
+                                    <th scope="col">Details</th>
+                                    <th scope="col">Booking</th>
+                                </tr>
+                                {linkTable}
+                            </tbody>
+                        </table>
+                        <br />
 
-                    <Link to="/" className="btn btn-info btn-md">Back</Link>
+                        <Link to="/" className="btn btn-info btn-md">Back</Link>
 
+                    </div>
+                    <div class="col-sm-2"></div>
                 </div>
-                <div class="col-sm-2"></div>    
-            </div>
             </container>
 
         )
@@ -252,89 +315,6 @@ class Header extends Component {
     }
 }
 
-class FilterSidebar extends Component {
-    constructor(props) {
-        super(props);
-        this.toggle = this.toggle.bind(this);
-        this.select = this.select.bind(this);
-        this.state = {
-            dropdownOpen: false,
-            value: "Brand"
-        };
-    }
-
-    toggle() {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen
-        });
-    }
-
-    select(event) {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen,
-            value: event.target.innerText
-        });
-    }
-
-    render() {
-        return (
-            <div>
-                <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                    <DropdownToggle>{this.state.value}</DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem onClick={this.select}>Opel</DropdownItem>
-                        <DropdownItem onClick={this.select}>Toyota</DropdownItem>
-                    </DropdownMenu>
-                </ButtonDropdown>
-            </div>
-        );
-    }
-}
-
-class FilterForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div>
-                <form>
-                <FormGroup>
-                    <Label for="BrandFilter">Brand</Label>
-                    <Input type="select" name="select" id="BrandFilter">
-                        <option></option>
-                        <option>Toyota</option>
-                        <option>Opel</option>
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="DoorFilter">Doors</Label>
-                    <Input type="select" name="select" id="DoorFilter">
-                        <option></option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </Input>
-                </FormGroup>
-                <FormGroup> 
-                    <Label for="SeatFilter">Seats</Label>
-                    <Input type="select" name="select" id="SeatFilter">
-                        <option></option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </Input>
-                </FormGroup>
-                <Button>Submit</Button>
-                </form>
-            </div>
-        );
-    }
-}
-
 class App extends Component {
     constructor(props) {
         super(props);
@@ -355,8 +335,6 @@ class App extends Component {
                             <Route exact path="/" render={() => <RentCar setURL={this.setURL} />} />
                             <Route path="/showcars" render={() => <ShowCars fetchURL={this.state.fetchURL} />} />
                             <Route path="/details/:regno" render={(props) => <CarDetails {...props} />} />
-
-                            <Route path="/test" component={FilterSidebar} />} />
                             <Route component={NoMatch} />
                         </Switch>
                     </Router>
