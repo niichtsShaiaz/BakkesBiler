@@ -118,9 +118,7 @@ class ShowCars extends Component {
             this.setState({ list: list2 })
         }
         if (this.state.make != "") {
-            console.log(this.state.make);
             var list2 = sort.sortCarsByIsMake(this.state.make, this.state.list);
-            console.log(list2);
             this.setState({ list: list2 })
         }
 
