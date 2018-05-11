@@ -105,7 +105,7 @@ class ShowCars extends Component {
 
     }
     handleChange(event) {
-        this.setState({ doors: event.target.value });
+        this.setState({ value: event.target.value });
     }
 
     Onsubmit() {
