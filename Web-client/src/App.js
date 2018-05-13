@@ -8,7 +8,8 @@ import {
 } from 'react-router-dom'
 import facade from "./testing/apiFacadeTest";
 import sort from "./Sort";
-import { Nav, NavItem, Row, Col, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown, FormGroup, Label, Input, Button } from 'reactstrap';
+import {Nav, NavItem, Row, Col, Container } from 'reactstrap';
+
 
 const NoMatch = () => (
     <h1> No Match </h1>
@@ -104,8 +105,13 @@ class ShowCars extends Component {
         facade.fetchAllCars().then(res => this.setState({ list: res }));
 
     }
-    handleChange(event) {
-        this.setState({ doors: event.target.value });
+
+}
+class ShowCars extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { dataFromServer: [], list: []  };
+        
     }
 
     Onsubmit() {
@@ -131,6 +137,7 @@ class ShowCars extends Component {
 
         var cars = this.state.list;
         console.log(cars);
+        var list = sortCarsByDoors(5, cars);
         var linkTable = cars.map((car) => {
             return (
                 <tr scope="row" key={car.regno}>
