@@ -35,12 +35,12 @@ public class SetupTestUsers {
 //          System.out.println("PW: "+user.getUserPass());
 //          System.out.println("Testing user with OK password: "+user.verifyPassword("test"));
 //          System.out.println("Testing user with wrong password: "+user.verifyPassword("test1"));
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //          System.out.println("Created TEST Users");
     
     
           
-=======
+//=======
           System.out.println("Created TEST Users");
     
            em.getTransaction().begin();
@@ -56,7 +56,7 @@ public class SetupTestUsers {
           em.persist(vehicles);
           em.getTransaction().commit();
           System.out.println("model" + vehicles.getModel());
->>>>>>> origin/dev1
+//>>>>>>> origin/dev1
           
 
 
