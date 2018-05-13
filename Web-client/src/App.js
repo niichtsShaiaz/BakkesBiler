@@ -8,8 +8,8 @@ import {
 } from 'react-router-dom'
 import facade from "./testing/apiFacadeTest";
 import sort from "./Sort";
-import {Nav, NavItem, Row, Col, Container } from 'reactstrap';
-
+import search from "./Search";
+import { Nav, NavItem, Row, Col, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
 const NoMatch = () => (
     <h1> No Match </h1>
@@ -105,19 +105,16 @@ class ShowCars extends Component {
         facade.fetchAllCars().then(res => this.setState({ list: res }));
 
     }
-
-}
-class ShowCars extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { dataFromServer: [], list: []  };
-        
+    handleChange(event) {
+        this.setState({ value: event.target.value });
     }
 
     Onsubmit() {
         if (this.state.doors != "") {
-            var list2 = sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list);
-            this.setState({ list: list2 })
+            console.log(this.state.doors);
+           // var list2 = sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list);
+            //t his.setState({ list: list2})
+            this.setState({list: sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list)});
         }
         if (this.state.seats != "") {
             var list2 = sort.sortCarsBySeats(parseInt(this.state.seats), this.state.list);
@@ -133,11 +130,18 @@ class ShowCars extends Component {
         this.setState({ list: this.state.AllCars })
         this.refs.form.reset();
     }
+
+    search(event){
+        if(event.target.value == "")
+            this.setState({ list: this.state.AllCars});
+        else
+            this.setState({ list: search.filterCarsBySearch(event.target.value, this.state.AllCars)});
+    }
+
     render() {
 
         var cars = this.state.list;
         console.log(cars);
-        var list = sortCarsByDoors(5, cars);
         var linkTable = cars.map((car) => {
             return (
                 <tr scope="row" key={car.regno}>
@@ -190,6 +194,7 @@ class ShowCars extends Component {
                     </div>
                     <div className="col-sm-2"></div>
                     <div className="col-sm-8">
+                    <Input type="text" name="search" id="search" placeholder="Search" onChange={this.search.bind(this)}/>
                         <div className="well well-sm"> <h3> List of Cars</h3> </div>
                         <table className="table" key="tableList">
                             <tbody>
