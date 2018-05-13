@@ -110,8 +110,10 @@ class ShowCars extends Component {
 
     Onsubmit() {
         if (this.state.doors != "") {
-            var list2 = sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list);
-            this.setState({ list: list2 })
+            console.log(this.state.doors);
+           // var list2 = sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list);
+            //t his.setState({ list: list2})
+            this.setState({list: sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list)});
         }
         if (this.state.seats != "") {
             var list2 = sort.sortCarsBySeats(parseInt(this.state.seats), this.state.list);
