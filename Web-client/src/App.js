@@ -152,6 +152,7 @@ class ShowCars extends Component {
                     <td>{car.priceperday}</td>
                     <td><Link to={`details/${car.regno}`} class="btn btn-success">Show Details</Link></td>
                     <td><Link to="/showcars" class="btn btn-success">Book</Link></td>
+                    <td><Link to="/compare" class="btn btn-success">Compare</Link></td>
                 </tr>
             )
         });
@@ -281,8 +282,6 @@ class CarDetails extends Component {
 
                     <br /><br />
 
-
-
                     <Link to="/showcars" class="btn btn-success">Back</Link>
 
                 </div>
@@ -317,6 +316,9 @@ class Header extends Component {
                                     <NavLink exact to="/filter"> Filter </NavLink>
                                 </NavItem>
                                 <NavItem>
+                                    <NavLink exact to="/compare"> Compare </NavLink>
+                                </NavItem>
+                                <NavItem>
                                     <NavLink exact to="/adminPage"> (Admin Page) </NavLink>
                                 </NavItem>
                             </Nav>
@@ -328,6 +330,157 @@ class Header extends Component {
         )
     }
 }
+
+class Compare extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataFromServer: [],
+            selectedCars: []
+        };
+    }
+    componentDidMount() {
+        facade.fetchAllCars().then(res => this.setState({ dataFromServer: res }));
+
+    }
+    handleCompareSave(id) {
+        // when a car is selected, add it to the selectedCars state propery
+        const { dataFromServer, selectedCars } = this.state;
+        const selectedCarAsArray = dataFromServer.filter(car => car.id === id);
+
+        this.setState({
+            selectedCars: [...selectedCars, ...selectedCarAsArray]
+        });
+    }
+
+    handleRemoveCarFromComparison(id) {
+        const { selectedCars } = this.state;
+        const selectedCarAsArray = selectedCars.filter(car => car.id !== id); // remove the car in question from comparison
+
+        this.setState({
+            selectedCars: selectedCarAsArray
+        });
+    }
+
+    generateJSXForCar(car) {
+        return <div>
+            
+         
+
+                    <table className="table" key="tableList">
+                        <tbody>
+                            <tr>
+                                <th scope="col">Category</th>
+                                <th scope="col">Make</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Year</th>
+                                <th scope="col">Regno</th>
+                                <th scope="col">Seats</th>
+                                <th scope="col">Doors</th>
+                                <th scope="col">Gear</th>
+                                <th scope="col">Aircondition</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">PricePerDay</th>
+                              
+                            </tr>
+                            <tr scope="row" key={car.regno}>
+                                <td>{car.category}</td>
+                                <td>{car.model}</td>
+                                <td>{car.make}</td>
+                                <td>{car.year}</td>
+                                <td>{car.regno}</td>
+                                <td>{car.seats}</td>
+                                <td>{car.doors}</td>
+                                <td>{car.gear}</td>
+                                <td>{"" + car.aircondition}</td>
+                                <td>{car.location}</td>
+                                <td>{car.priceperday}</td>
+                               
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <img src={car.picture} width="30%" height="30%" alt="" />
+                    
+        
+     </div>;
+    }
+
+    generateJSXForComparedCar(car) {
+        return (<div class="car-being-compared">
+          <table className="table" key="tableList">
+                        <tbody>
+                            <tr>
+                                <th scope="col">Category</th>
+                                <th scope="col">Make</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Year</th>
+                                <th scope="col">Regno</th>
+                                <th scope="col">Seats</th>
+                                <th scope="col">Doors</th>
+                                <th scope="col">Gear</th>
+                                <th scope="col">Aircondition</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">PricePerDay</th>
+                              
+                            </tr>
+                            <tr scope="row" key={car.regno}>
+                                <td>{car.category}</td>
+                                <td>{car.model}</td>
+                                <td>{car.make}</td>
+                                <td>{car.year}</td>
+                                <td>{car.regno}</td>
+                                <td>{car.seats}</td>
+                                <td>{car.doors}</td>
+                                <td>{car.gear}</td>
+                                <td>{"" + car.aircondition}</td>
+                                <td>{car.location}</td>
+                                <td>{car.priceperday}</td>
+                               
+                            </tr>
+
+                        </tbody>
+                    </table>
+            <div>  <img src={car.picture} width="30%" height="30%" alt="" /></div>
+            <div>
+                <button className="btn btn-success" onClick={() => this.handleRemoveCarFromComparison(car.id)}>
+                    Remove this car from comparison</button>
+            </div>
+        </div>);
+    }
+
+    render() {
+        const { dataFromServer, selectedCars } = this.state;
+
+        var compares = dataFromServer.map((car) => {
+            const compareDisabled = !!selectedCars.find(selectedCar => selectedCar.id === car.id);
+
+            return (
+                <div>
+                    {this.generateJSXForCar(car)}
+                    <button className="btn btn-success" onClick={() => this.handleCompareSave(car.id)}
+                        disabled={compareDisabled}>Compare</button>
+                </div>
+            );
+        });
+
+        return (
+            <div>
+               <h3 className="h3"> Cars being compared:</h3>
+                <div className="compared-cars-container">
+                    {selectedCars.map(selectedCar => this.generateJSXForComparedCar(selectedCar))}
+                </div>
+
+                <hr/>
+               <h3 className="h3"> All cars:</h3>
+                {compares}
+            </div>
+        );
+    }
+}
+
+
 
 class App extends Component {
     constructor(props) {
@@ -350,13 +503,14 @@ class App extends Component {
                             <Route path="/showcars" render={() => <ShowCars fetchURL={this.state.fetchURL} />} />
                             <Route path="/details/:regno" render={(props) => <CarDetails {...props} />} />
                             <Route path="/filter" render={() => <filter fetchURL={this.state.fetchURL} />} />
+                            <Route path="/compare" render={() => <Compare fetchURL={this.state.fetchURL} />} />
                             <Route path="/adminPage" component={adminPage} />
                             <Route component={NoMatch} />
                         </Switch>
                     </Router>
                 </div>
 
-                <div class="row">
+                <div className="row">
                     <br />
                     <div class="col-md-5"></div>
                     <div class="col-md-5"></div>
