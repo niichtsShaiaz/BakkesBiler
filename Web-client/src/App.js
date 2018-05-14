@@ -11,6 +11,7 @@ import sort from "./Sort";
 import search from "./Search";
 import { Nav, NavItem, Row, Col, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
+import adminPage from "./adminStuff/adminPage";
 const NoMatch = () => (
     <h1> No Match </h1>
 )
@@ -315,6 +316,9 @@ class Header extends Component {
                                 <NavItem>
                                     <NavLink exact to="/filter"> Filter </NavLink>
                                 </NavItem>
+                                <NavItem>
+                                    <NavLink exact to="/adminPage"> (Admin Page) </NavLink>
+                                </NavItem>
                             </Nav>
                         </Col>
                     </Row>
@@ -345,6 +349,8 @@ class App extends Component {
                             <Route exact path="/" render={() => <RentCar setURL={this.setURL} />} />
                             <Route path="/showcars" render={() => <ShowCars fetchURL={this.state.fetchURL} />} />
                             <Route path="/details/:regno" render={(props) => <CarDetails {...props} />} />
+                            <Route path="/filter" render={() => <filter fetchURL={this.state.fetchURL} />} />
+                            <Route path="/adminPage" component={adminPage} />
                             <Route component={NoMatch} />
                         </Switch>
                     </Router>
