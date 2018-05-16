@@ -343,7 +343,7 @@ class Compare extends Component {
 
     generateJSXForComparedCar(car) {
         return (<div class="car-being-compared">
-          <table className="table" key="tableList">
+          <table className="tableCar" key="tableList">
                         <tbody>
                             <tr>
                                 <th scope="col">Category</th>
@@ -357,8 +357,9 @@ class Compare extends Component {
                                 <th scope="col">Aircondition</th>
                                 <th scope="col">Location</th>
                                 <th scope="col">PricePerDay</th>
-                              
+                                     
                             </tr>
+                        
                             <tr scope="row" key={car.regno}>
                                 <td>{car.category}</td>
                                 <td>{car.model}</td>
@@ -371,10 +372,12 @@ class Compare extends Component {
                                 <td>{"" + car.aircondition}</td>
                                 <td>{car.location}</td>
                                 <td>{car.priceperday}</td>
+                        
                                
                             </tr>
-
+                     
                         </tbody>
+                
                     </table>
             <div>  <img src={car.picture} width="30%" height="30%" alt="" /></div>
             <div>
