@@ -97,7 +97,6 @@ class ShowCars extends Component {
             seats: "",
             make: "",
         };
-        this.handleChange = this.handleChange.bind(this);
         this.ResetFilters = this.ResetFilters.bind(this);
         this.Onsubmit = this.Onsubmit.bind(this);
     }
@@ -109,8 +108,6 @@ class ShowCars extends Component {
     
     Onsubmit() {
         this.setState({list: this.state.AllCars })
-        console.log(this.state.AllCars);
-        console.log(this.state.list);
 
         if (this.state.doors != "") {
             this.setState({list: sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list)});
@@ -119,6 +116,8 @@ class ShowCars extends Component {
             this.setState({ list: sort.sortCarsBySeats(parseInt(this.state.seats), this.state.list)})
         }
         if (this.state.make != "") {
+            console.log(this.state.make);
+            console.log(sort.sortCarsByIsMake(this.state.make, this.state.list));
             this.setState({ list: sort.sortCarsByIsMake(this.state.make, this.state.list)})
         }
 
@@ -164,7 +163,7 @@ class ShowCars extends Component {
                                     <option>Citroën</option>
                                     <option>Opel</option>
                                     <option>Mazda</option>
-                                    <option>Ford</option>
+                                    <option>Ford</option>   
                                 </Input>
                             </FormGroup>
                             <FormGroup>
