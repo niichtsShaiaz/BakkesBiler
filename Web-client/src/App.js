@@ -106,24 +106,20 @@ class ShowCars extends Component {
         facade.fetchAllCars().then(res => this.setState({ list: res }));
 
     }
-    handleChange(event) {
-        this.setState({ value: event.target.value });
-    }
-
+    
     Onsubmit() {
+        this.setState({list: this.state.AllCars })
+        console.log(this.state.AllCars);
+        console.log(this.state.list);
+
         if (this.state.doors != "") {
-            console.log(this.state.doors);
-           // var list2 = sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list);
-            //t his.setState({ list: list2})
             this.setState({list: sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list)});
         }
         if (this.state.seats != "") {
-            var list2 = sort.sortCarsBySeats(parseInt(this.state.seats), this.state.list);
-            this.setState({ list: list2 })
+            this.setState({ list: sort.sortCarsBySeats(parseInt(this.state.seats), this.state.list)})
         }
         if (this.state.make != "") {
-            var list2 = sort.sortCarsByIsMake(this.state.make, this.state.list);
-            this.setState({ list: list2 })
+            this.setState({ list: sort.sortCarsByIsMake(this.state.make, this.state.list)})
         }
 
     }
@@ -142,7 +138,6 @@ class ShowCars extends Component {
     render() {
 
         var cars = this.state.list;
-        console.log(cars);
         var linkTable = cars.map((car) => {
             return (
                 <tr scope="row" key={car.regno}>
@@ -161,13 +156,15 @@ class ShowCars extends Component {
             <container>
                 <div className="">
                     <div className="col-sm-2">
-                        <form onChange={this.handleChange} ref="form">
+                        <form ref="form">
                             <FormGroup>
                                 <Label for="BrandFilter">Brand</Label>
                                 <Input type="select" name="BrandFilter" id="BrandFilter" onChange={e => this.setState({ make: e.target.value })}>
                                     <option></option>
-                                    <option>Toyota</option>
+                                    <option>Citroën</option>
                                     <option>Opel</option>
+                                    <option>Mazda</option>
+                                    <option>Ford</option>
                                 </Input>
                             </FormGroup>
                             <FormGroup>
