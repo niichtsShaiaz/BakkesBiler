@@ -88,6 +88,7 @@ class adminAddCar extends Component {
     handleCatagory(event) {
         this.setState({ catagory: event.target.value })
     }
+    
 
     render() {
         return (
@@ -127,7 +128,7 @@ class adminAddCar extends Component {
                         <FormGroup>
                             <Label for="gearType">Gear Type:</Label>
                             <Input type="select" name="gearType" id="gearType" value={this.state.gearType} onChange={this.handleGearType.bind(this)}>
-                            <option></option>
+                                <option></option>
                                 <option value="MANUAL">MANUAL</option>
                                 <option value="AUTO">AUTO</option>
                             </Input>
