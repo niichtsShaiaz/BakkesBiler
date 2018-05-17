@@ -99,6 +99,8 @@ class ShowCars extends Component {
         };
         this.ResetFilters = this.ResetFilters.bind(this);
         this.Onsubmit = this.Onsubmit.bind(this);
+        this.handleBooking = this.handleBooking.bind(this);
+        this.changeBooking = this.changeBooking.bind(this);
     }
     componentDidMount() {
         facade.fetchAllCars().then(res => this.setState({ AllCars: res }));
@@ -122,6 +124,17 @@ class ShowCars extends Component {
 
     }
 
+    handleBooking(props) {
+        if (props.car.isavailable == true) {
+            return <td><Link to="/showcars" onclick={this.changeBooking} class="btn btn-success">Book</Link></td>
+        }
+        if (props.car.isavailable == false) {
+            return <td><Link to="/showcars" onclick={this.changeBooking} class="btn btn-danger">Book</Link></td>
+        }
+        else
+            return <td><Link to="/showcars" class="btn btn-info">Book</Link></td>
+    }
+
 
     ResetFilters(event) {
         this.setState({ list: this.state.AllCars })
@@ -134,19 +147,22 @@ class ShowCars extends Component {
         else
             this.setState({ list: search.filterCarsBySearch(event.target.value, this.state.AllCars) });
     }
-
+    changeBooking() {
+            
+    }
     render() {
 
-        var cars = this.state.list;
+        var cars = this.state.list;         
         var linkTable = cars.map((car) => {
             return (
                 <tr scope="row" key={car.regno}>
                     <td>{car.make}</td>
                     <td>{car.model}</td>
                     <td>{car.location}</td>
-                    <td>{car.priceperday}</td>
+                    <td>{car.pricePerDay}</td>
+                    <td>{"" + car.isavailable}</td>
+                    <this.handleBooking car={car} />
                     <td><Link to={`details/${car.regno}`} class="btn btn-success">Show Details</Link></td>
-                    <td><Link to="/showcars" class="btn btn-success">Book</Link></td>
                     <td><Link to="/compare" class="btn btn-success">Compare</Link></td>
                 </tr>
             )
@@ -202,8 +218,9 @@ class ShowCars extends Component {
                                     <th scope="col">Model</th>
                                     <th scope="col">Location</th>
                                     <th scope="col">Price Per Day</th>
-                                    <th scope="col">Details</th>
+                                    <th scope="col">Available</th>
                                     <th scope="col">Booking</th>
+                                    <th scope="col">Details</th>
                                 </tr>
                                 {linkTable}
                             </tbody>
@@ -298,30 +315,21 @@ class Header extends Component {
         return (
             <div>
                 <Router>
-                    <Row>
-                        <Col>
-                            <Nav Tabs>
+                    <Nav>
 
-                                {/* <a class="navbar-brand">CarMondo</a>*/}
-                                <NavItem>
-                                    <NavLink exact to="/"> Home </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink exact to="/showcars"> Browse </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink exact to="/filter"> Filter </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink exact to="/compare"> Compare </NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink exact to="/adminPage"> (Admin Page) </NavLink>
-                                </NavItem>
-                            </Nav>
-                        </Col>
-                    </Row>
-
+                        <NavItem>
+                            <NavLink exact to="/"> Home </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink exact to="/showcars"> Browse </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink exact to="/compare"> Compare </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink exact to="/adminPage"> (Admin Page) </NavLink>
+                        </NavItem>
+                    </Nav>
                 </Router>
             </div>
         )

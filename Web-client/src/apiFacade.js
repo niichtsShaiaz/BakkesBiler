@@ -1,10 +1,10 @@
 //const URL = "http://localhost:8084/jwtbackend";
 
-const URL = "https://ezlinodev.com/cars/api/CarApi/";
+const URL = "https://ezlinodev.com/cars/api/cars";
 
 function handleHttpErrors(res) {
     if (!res.ok) {
-        throw {message:res.statusText,status:res.status};
+        throw { message: res.statusText, status: res.status };
     }
     return res.json();
 }
@@ -25,15 +25,15 @@ class ApiFacade {
     }
 
     login = (user, pass) => {
-        const options = this.makeFetchOptions("POST",{ username: user, password: pass });
-        return fetch(URL+"/api/login",options,true)
+        const options = this.makeFetchOptions("POST", { username: user, password: pass });
+        return fetch(URL + "/api/login", options, true)
             .then(handleHttpErrors)
-            .then(res=>{this.setToken(res.token)})
+            .then(res => { this.setToken(res.token) })
     }
 
-    fetchData = () =>{
+    fetchData = () => {
         const options = this.makeFetchOptions("GET");
-        return fetch("https://swapi.co/api/people/1",options).then(handleHttpErrors);
+        return fetch("https://swapi.co/api/people/1", options).then(handleHttpErrors);
     }
 
     fetchAllCars = () => {
@@ -45,7 +45,7 @@ class ApiFacade {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
-        if(this.loggedIn()){
+        if (this.loggedIn()) {
             headers["x-access-token"] = this.getToken();
         }
         return {
