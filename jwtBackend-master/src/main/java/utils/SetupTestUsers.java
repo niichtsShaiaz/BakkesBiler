@@ -35,6 +35,12 @@ public class SetupTestUsers {
 //          System.out.println("PW: "+user.getUserPass());
 //          System.out.println("Testing user with OK password: "+user.verifyPassword("test"));
 //          System.out.println("Testing user with wrong password: "+user.verifyPassword("test1"));
+//<<<<<<< HEAD
+//          System.out.println("Created TEST Users");
+    
+    
+          
+//=======
           System.out.println("Created TEST Users");
     
            em.getTransaction().begin();
@@ -50,7 +56,24 @@ public class SetupTestUsers {
           em.persist(vehicles);
           em.getTransaction().commit();
           System.out.println("model" + vehicles.getModel());
+//>>>>>>> origin/dev1
           
+
+
+//          
+//                               em.getTransaction().begin();
+//          
+//          Vehicles vehicles5 = new Vehicles("estate", "https://avisassets.abgemea.com/.imaging/vehicleDetails_large/dms/avis/fleet/Ford/Focus/ford_12focus5doorhatchback_3b_sideview.png", "Ford", "Focus SW", 2017, "ADV 1013", 5, 5, "manual", true, "CPH airport", 11.75, true);
+//          em.persist(vehicles5);
+//          em.getTransaction().commit();
+//          System.out.println("model" + vehicles5.getModel());
+//          
+//            em.getTransaction().begin();
+//          
+//          Vehicles vehicles6 = new Vehicles("medium", "https://avisassets.abgemea.com/.imaging/vehicleDetails_large/dms/avis/fleet/Renault/Kangoo/renault_13kangooexpressmaximp_2b_sideview.png", "Renault", "Kangoo", 2017, "ADV 1213", 2, 2, "manual", true, "CPH airport", 08.75, true);
+//          em.persist(vehicles6);
+//          em.getTransaction().commit();
+//          System.out.println("model" + vehicles6.getModel());
   }
         
 }
