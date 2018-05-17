@@ -1,6 +1,6 @@
 //const URL = "http://localhost:8084/jwtbackend";
 
-const URL = "https://ezlinodev.com/cars/api/CarApi/";
+const URL = "https://ezlinodev.com/cars";
 
 function handleHttpErrors(res) {
     if (!res.ok) {
@@ -24,8 +24,8 @@ class ApiFacade {
         localStorage.removeItem("jwtToken");
     }
 
-    login = (user, pass) => {
-        const options = this.makeFetchOptions("POST",{ username: user, password: pass });
+    login = (em, pass) => {
+        const options = this.makeFetchOptions("POST",{ email: em, password: pass });
         return fetch(URL+"/api/login",options,true)
             .then(handleHttpErrors)
             .then(res=>{this.setToken(res.token)})
@@ -37,7 +37,7 @@ class ApiFacade {
     }
 
     fetchAllCars = () => {
-        return fetch(URL).then(handleHttpErrors);
+        return fetch(URL + "/api/CarApi/").then(handleHttpErrors);
     }
 
     makeFetchOptions = (type, b) => {

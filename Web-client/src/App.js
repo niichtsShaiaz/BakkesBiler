@@ -9,16 +9,11 @@ import {
 import facade from "./testing/apiFacadeTest";
 import sort from "./Sort";
 import search from "./Search";
-import { Nav, NavItem, Row, Col, Container, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, ButtonDropdown, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Nav, NavItem, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 
 import adminPage from "./adminStuff/adminPage";
 const NoMatch = () => (
     <h1> No Match </h1>
-)
-const Home = () => (
-    <div>
-        Welcome!
-  </div>
 )
 
 class RentCar extends Component {
@@ -32,7 +27,7 @@ class RentCar extends Component {
     }
     handleChangeLocation(event) {
         this.setState({ location: event.target.value });
-        if (event.target.value == "All") {
+        if (event.target.value === "All") {
             this.props.setURL("");
         } else {
             this.props.setURL("?location=" + event.target.value);
@@ -40,7 +35,7 @@ class RentCar extends Component {
     }
     handleChangeCategori(event) {
         this.setState({ categori: event.target.value });
-        if (event.target.value == "All") {
+        if (event.target.value === "All") {
             this.props.setURL("");
         } else {
             this.props.setURL("?category=" + event.target.value);
@@ -48,37 +43,37 @@ class RentCar extends Component {
     }
 
     handleSubmit(event) {
-        alert('submitted: ' + 'loca: ' + this.state.location + ", kate: " + this.state.categori);
+        alert("submitted: " + "loca: " + this.state.location + ", kate: " + this.state.categori);
         event.preventDefault();
     }
 
     render() {
         return (
-            <div><div class="row">
-                <div class="col-sm-5"> </div>
-                <div class="col-sm-3">
+            <div><div className="row">
+                <div className="col-sm-5"> </div>
+                <div className="col-sm-3">
                     <form>
-                        <div class="form group">
+                        <div className="form group">
                             <h1>Welcome</h1>
                         </div>
                     </form>
                 </div>
-                <div class="col-sm-4"> </div>
+                <div className="col-sm-4"> </div>
             </div>
 
-                <div class="row">
-                    <div class="col-sm-5"> </div>
-                    <div class="col-sm-3">
+                <div className="row">
+                    <div className="col-sm-5"> </div>
+                    <div className="col-sm-3">
                         <form>
-                            <div class="form group">
-                                <Link to="/showcars" class="btn btn-info btn-lg">Show All Cars</Link>
+                            <div className="form group">
+                                <Link to="/showcars" className="btn btn-info btn-lg">Show All Cars</Link>
                             </div>
                         </form>
                     </div>
-                    <div class="col-sm-4"> </div>
+                    <div className="col-sm-4"> </div>
                 </div>
 
-                <div class="form-group">
+                <div className="form-group">
                     &nbsp;
         </div>
 
@@ -303,7 +298,7 @@ class Header extends Component {
                 <Router>
                     <Row>
                         <Col>
-                            <Nav Tabs>
+                            <Nav tabs>
 
                                 {/* <a class="navbar-brand">CarMondo</a>*/}
                                 <NavItem>
@@ -512,8 +507,8 @@ class App extends Component {
 
                 <div className="row">
                     <br />
-                    <div class="col-md-5"></div>
-                    <div class="col-md-5"></div>
+                    <div className="col-md-5"></div>
+                    <div className="col-md-5"></div>
                 </div>
             </div>
         )
