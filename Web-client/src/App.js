@@ -105,33 +105,34 @@ class ShowCars extends Component {
         facade.fetchAllCars().then(res => this.setState({ list: res }));
 
     }
-    
     Onsubmit() {
-        this.setState({list: this.state.AllCars })
-
+        let listTest = this.state.AllCars;
         if (this.state.doors != "") {
-            this.setState({list: sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list)});
+            listTest = sort.sortCarsByDoors(parseInt(this.state.doors), listTest);
+            this.setState({ list: listTest });
         }
         if (this.state.seats != "") {
-            this.setState({ list: sort.sortCarsBySeats(parseInt(this.state.seats), this.state.list)})
+            listTest = sort.sortCarsBySeats(parseInt(this.state.seats), listTest);
+            this.setState({ list: listTest })
         }
         if (this.state.make != "") {
-            console.log(this.state.make);
-            console.log(sort.sortCarsByIsMake(this.state.make, this.state.list));
-            this.setState({ list: sort.sortCarsByIsMake(this.state.make, this.state.list)})
+            listTest = sort.sortCarsByIsMake(this.state.make, listTest);
+            this.setState({ list: listTest })
         }
 
     }
+
+
     ResetFilters(event) {
         this.setState({ list: this.state.AllCars })
         this.refs.form.reset();
     }
 
-    search(event){
-        if(event.target.value == "")
-            this.setState({ list: this.state.AllCars});
+    search(event) {
+        if (event.target.value == "")
+            this.setState({ list: this.state.AllCars });
         else
-            this.setState({ list: search.filterCarsBySearch(event.target.value, this.state.AllCars)});
+            this.setState({ list: search.filterCarsBySearch(event.target.value, this.state.AllCars) });
     }
 
     render() {
@@ -163,7 +164,7 @@ class ShowCars extends Component {
                                     <option>Citroën</option>
                                     <option>Opel</option>
                                     <option>Mazda</option>
-                                    <option>Ford</option>   
+                                    <option>Ford</option>
                                 </Input>
                             </FormGroup>
                             <FormGroup>
@@ -192,7 +193,7 @@ class ShowCars extends Component {
                     </div>
                     <div className="col-sm-2"></div>
                     <div className="col-sm-8">
-                    <Input type="text" name="search" id="search" placeholder="Search" onChange={this.search.bind(this)}/>
+                        <Input type="text" name="search" id="search" placeholder="Search" onChange={this.search.bind(this)} />
                         <div className="well well-sm"> <h3> List of Cars</h3> </div>
                         <table className="table" key="tableList">
                             <tbody>
@@ -360,84 +361,84 @@ class Compare extends Component {
 
     generateJSXForCar(car) {
         return <div>
-            
-         
 
-                    <table className="table" key="tableList">
-                        <tbody>
-                            <tr>
-                                <th scope="col">Category</th>
-                                <th scope="col">Make</th>
-                                <th scope="col">Model</th>
-                                <th scope="col">Year</th>
-                                <th scope="col">Regno</th>
-                                <th scope="col">Seats</th>
-                                <th scope="col">Doors</th>
-                                <th scope="col">Gear</th>
-                                <th scope="col">Aircondition</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">PricePerDay</th>
-                              
-                            </tr>
-                            <tr scope="row" key={car.regno}>
-                                <td>{car.category}</td>
-                                <td>{car.model}</td>
-                                <td>{car.make}</td>
-                                <td>{car.year}</td>
-                                <td>{car.regno}</td>
-                                <td>{car.seats}</td>
-                                <td>{car.doors}</td>
-                                <td>{car.gear}</td>
-                                <td>{"" + car.aircondition}</td>
-                                <td>{car.location}</td>
-                                <td>{car.priceperday}</td>
-                               
-                            </tr>
 
-                        </tbody>
-                    </table>
 
-                    <img src={car.picture} width="30%" height="30%" alt="" />
-                    
-        
-     </div>;
+            <table className="table" key="tableList">
+                <tbody>
+                    <tr>
+                        <th scope="col">Category</th>
+                        <th scope="col">Make</th>
+                        <th scope="col">Model</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Regno</th>
+                        <th scope="col">Seats</th>
+                        <th scope="col">Doors</th>
+                        <th scope="col">Gear</th>
+                        <th scope="col">Aircondition</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">PricePerDay</th>
+
+                    </tr>
+                    <tr scope="row" key={car.regno}>
+                        <td>{car.category}</td>
+                        <td>{car.model}</td>
+                        <td>{car.make}</td>
+                        <td>{car.year}</td>
+                        <td>{car.regno}</td>
+                        <td>{car.seats}</td>
+                        <td>{car.doors}</td>
+                        <td>{car.gear}</td>
+                        <td>{"" + car.aircondition}</td>
+                        <td>{car.location}</td>
+                        <td>{car.priceperday}</td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <img src={car.picture} width="30%" height="30%" alt="" />
+
+
+        </div>;
     }
 
     generateJSXForComparedCar(car) {
         return (<div class="car-being-compared">
-          <table className="table" key="tableList">
-                        <tbody>
-                            <tr>
-                                <th scope="col">Category</th>
-                                <th scope="col">Make</th>
-                                <th scope="col">Model</th>
-                                <th scope="col">Year</th>
-                                <th scope="col">Regno</th>
-                                <th scope="col">Seats</th>
-                                <th scope="col">Doors</th>
-                                <th scope="col">Gear</th>
-                                <th scope="col">Aircondition</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">PricePerDay</th>
-                              
-                            </tr>
-                            <tr scope="row" key={car.regno}>
-                                <td>{car.category}</td>
-                                <td>{car.model}</td>
-                                <td>{car.make}</td>
-                                <td>{car.year}</td>
-                                <td>{car.regno}</td>
-                                <td>{car.seats}</td>
-                                <td>{car.doors}</td>
-                                <td>{car.gear}</td>
-                                <td>{"" + car.aircondition}</td>
-                                <td>{car.location}</td>
-                                <td>{car.priceperday}</td>
-                               
-                            </tr>
+            <table className="table" key="tableList">
+                <tbody>
+                    <tr>
+                        <th scope="col">Category</th>
+                        <th scope="col">Make</th>
+                        <th scope="col">Model</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Regno</th>
+                        <th scope="col">Seats</th>
+                        <th scope="col">Doors</th>
+                        <th scope="col">Gear</th>
+                        <th scope="col">Aircondition</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">PricePerDay</th>
 
-                        </tbody>
-                    </table>
+                    </tr>
+                    <tr scope="row" key={car.regno}>
+                        <td>{car.category}</td>
+                        <td>{car.model}</td>
+                        <td>{car.make}</td>
+                        <td>{car.year}</td>
+                        <td>{car.regno}</td>
+                        <td>{car.seats}</td>
+                        <td>{car.doors}</td>
+                        <td>{car.gear}</td>
+                        <td>{"" + car.aircondition}</td>
+                        <td>{car.location}</td>
+                        <td>{car.priceperday}</td>
+
+                    </tr>
+
+                </tbody>
+            </table>
             <div>  <img src={car.picture} width="30%" height="30%" alt="" /></div>
             <div>
                 <button className="btn btn-success" onClick={() => this.handleRemoveCarFromComparison(car.id)}>
@@ -463,13 +464,13 @@ class Compare extends Component {
 
         return (
             <div>
-               <h3 className="h3"> Cars being compared:</h3>
+                <h3 className="h3"> Cars being compared:</h3>
                 <div className="compared-cars-container">
                     {selectedCars.map(selectedCar => this.generateJSXForComparedCar(selectedCar))}
                 </div>
 
-                <hr/>
-               <h3 className="h3"> All cars:</h3>
+                <hr />
+                <h3 className="h3"> All cars:</h3>
                 {compares}
             </div>
         );
