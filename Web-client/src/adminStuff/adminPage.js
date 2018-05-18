@@ -9,6 +9,7 @@ import {
 import { Nav, NavItem, Row, Col } from 'reactstrap';
 
 import adminAddCar from "./adminAddCar";
+import adminPageReservations from "./adminPageReservations";
 
 const NoMatch = () => (
     <h1> No Match </h1>
@@ -35,6 +36,9 @@ class adminPage extends Component {
                                 <NavItem>
                                     <NavLink exact to="/adminPage/addCar"> Add Car </NavLink>
                                 </NavItem>
+                                <NavItem>
+                                    <NavLink exact to="/adminPage/reservations"> Reservations </NavLink>
+                                </NavItem>
                             </Nav>
                         </Col>
                     </Row>
@@ -45,6 +49,7 @@ class adminPage extends Component {
                     <Switch>
                         <Route exact path="/adminPage" render={() => <div>Admin Page</div>} />
                         <Route path="/adminPage/addCar"  component={adminAddCar}/>
+                        <Route path="/adminPage/reservations"  component={adminPageReservations}/>
                         <Route component={NoMatch} />
                     </Switch>
                 </Router>

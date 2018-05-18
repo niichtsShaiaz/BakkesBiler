@@ -57,9 +57,37 @@ public class CarFacade
         System.out.println("Car has been added");
     }
     
+    public void removeCar(Vehicles v)
+    {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        
+        em.remove(em.find(Vehicles.class, v.getId()));
+        em.getTransaction().commit();
+        em.close();
+        System.out.println("Car has been removed");
+    }
+    
+    public List<Reservation> getAllreservations()
+    {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        List<Reservation> reservations = em.createQuery("SELECT r FROM Reservation r").getResultList();
+        em.close();
+        return reservations;
+    }
+    
     public static void main(String[] args)
     {
         CarFacade cf = CarFacade.getInstance();
-        System.out.println("--" + cf.getCar("e_2020").toString());
+        List<Reservation> reservations = cf.getAllreservations();
+        for(Reservation re : reservations)
+        {
+            System.out.println(re);
+        }
+        //System.out.println("--" + cf.getCar("e_2020").toString());
+        //Vehicles v =   cf.getCar("2010");
+        //cf.removeCar(v);
+        System.out.println("done");
     }
 }

@@ -8,7 +8,9 @@ package rest;
 import com.google.gson.Gson;
 import dto.CarMessage;
 import dto.JSONMessage;
+import dto.ReservationMessage;
 import entity.CarFacade;
+import entity.Reservation;
 import entity.Vehicles;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,19 @@ public class CarApiResource
             cars.add(new CarMessage(v));
         }
         return gson.toJson(cars);
+    }
+    
+    @GET
+    @Path("reservations")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllReservation()
+    {
+        List<ReservationMessage> res = new ArrayList<>();
+        for(Reservation r : carFacade.getAllreservations())
+        {
+            res.add(new ReservationMessage(r));
+        }
+        return gson.toJson(res);
     }
     
     @GET
