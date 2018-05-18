@@ -4,7 +4,7 @@ const URL = "http://localhost:8084/jwtbackend";
 
 function handleHttpErrors(res) {
     if (!res.ok) {
-        throw {message:res.statusText,status:res.status};
+        throw { message: res.statusText, status: res.status };
     }
     return res.json();
 }
@@ -28,7 +28,7 @@ class ApiFacade {
         const options = this.makeFetchOptions("POST",{ email: em, password: pass });
         return fetch(URL+"/api/login",options,true)
             .then(handleHttpErrors)
-            .then(res=>{this.setToken(res.token)})
+            .then(res => { this.setToken(res.token) })
     }
 
     fetchAllCars = () => {
@@ -40,7 +40,7 @@ class ApiFacade {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
-        if(this.loggedIn()){
+        if (this.loggedIn()) {
             headers["x-access-token"] = this.getToken();
         }
         return {

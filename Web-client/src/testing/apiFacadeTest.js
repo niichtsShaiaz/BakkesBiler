@@ -1,4 +1,4 @@
-const URL = "https://ezlinodev.com/cars/api/CarApi/";
+const URL = "https://ezlinodev.com/cars/api/cars/";
 
 function handleHttpErrors(res) {
     if (!res.ok) {
