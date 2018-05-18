@@ -54,6 +54,18 @@ class ShowCars extends Component{
         }
 
     }
+
+    handleBooking(props) {
+        if (props.car.isavailable == true) {
+            return <td><Link to="/showcars" onclick={this.changeBooking} class="btn btn-success">Book</Link></td>
+        }
+        if (props.car.isavailable == false) {
+            return <td><Link to="/showcars" onclick={this.changeBooking} class="btn btn-danger">Book</Link></td>
+        }
+        else
+            return <td><Link to="/showcars" class="btn btn-info">Book</Link></td>
+    }
+
     ResetFilters(event) {
         this.setState({ list: this.state.AllCars })
         this.refs.form.reset();
@@ -65,84 +77,6 @@ class ShowCars extends Component{
         else
             this.setState({ list: search.filterCarsBySearch(event.target.value, this.state.AllCars)});
     }
-
-    /*render() {
-
-        var cars = this.state.list;
-        console.log(cars);
-        var linkTable = cars.map((car) => {
-            return (
-                <Jumbotron>
-                    <Row>
-                        <Col xs="6"><img src={car.picture} width="100%" alt="" /></Col>
-                        <Col xs="6">
-                            <h2>{car.category}</h2>
-                            <p><b>{car.make} {car.model}</b></p>
-                            <p><b>Krav til chaufføren:</b></p>
-                            <p>- Alderskrav: 21 (For chauffører under 25 år vil der blive tillagt et gebyr for ung chauffør).</p>
-                            <p>- Gyldigt kørekort udstedt minimum 6 måneder før lejeperiodens start.</p>
-                            <p>- Mindst 1 kreditkort kræves som betalingsmiddel for billejen.</p>
-                            <p><b>{car.seats} personer</b>, <b>{car.doors} døre</b>, <b>{car.gear}</b></p>
-                            
-                        </Col>
-                    </Row>
-                </Jumbotron>
-            )
-        });
-
-        return (
-            <container>
-                <div className="">
-                    <div className="col-sm-2">
-                        <form onChange={this.handleChange} ref="form">
-                            <FormGroup>
-                                <Label for="BrandFilter">Brand</Label>
-                                <Input type="select" name="BrandFilter" id="BrandFilter" onChange={e => this.setState({ make: e.target.value })}>
-                                    <option></option>
-                                    <option>Toyota</option>
-                                    <option>Opel</option>
-                                </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="DoorFilter">Doors</Label>
-                                <Input type="select" name="DoorFilter" id="DoorFilter" onChange={e => this.setState({ doors: e.target.value })}>
-                                    <option></option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="SeatFilter">Seats</Label>
-                                <Input type="select" name="SeatFilter" id="SeatFilter" onChange={e => this.setState({ seats: e.target.value })}>
-                                    <option></option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Input>
-                            </FormGroup>
-                            <Button onClick={this.Onsubmit}>Submit</Button>
-                        </form>
-                        <Button onClick={this.ResetFilters} >Reset Filters</Button>
-                    </div>
-                    <div className="col-sm-2"></div>
-                    <div className="col-sm-8">
-                        <Input type="text" name="search" id="search" placeholder="Search" onChange={this.search.bind(this)}/>
-                        <div className="well well-sm"> <h3> List of Cars</h3> </div>
-                        {linkTable}
-                        <br />
-                        <Link to="/" className="btn btn-info btn-md">Back</Link>
-                    </div>
-                    <div class="col-sm-2"></div>
-                </div>
-            </container>
-
-        )
-    }*/
-
-    //-------------------------------------------------------------------------------------------------------------------
 
     handleCompareSave(id) {
         // when a car is selected, add it to the selectedCars state propery
@@ -191,7 +125,7 @@ class ShowCars extends Component{
                             <p><b>{car.seats} personer</b>, <b>{car.doors} døre</b>, <b>{car.gear}</b></p>
                             <p><b>pris per dag: {car.priceperday} kr.</b></p>
                             <p><b>lokation: {car.location}</b></p>
-                            <Link to='/details/{this.state.regno}' class="btn btn-success">Lej</Link>
+                            <td><Link to='/details/{this.state.regno}' class="btn btn-success">lej</Link></td>
                             <button className="btn btn-success" onClick={() => this.handleCompareSave(car.id)}
                         disabled={compareDisabled}>Compare</button>
                         </Col>
