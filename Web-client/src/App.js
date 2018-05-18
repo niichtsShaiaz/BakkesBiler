@@ -4,11 +4,14 @@ import {
     Route,
     Switch,
     NavLink,
-    Link
+    Link,
+    Redirect 
 } from 'react-router-dom'
-import facade from "./testing/apiFacadeTest";
+import facade from "./apiFacade";
 import sort from "./Sort";
 import search from "./Search";
+import ShowCars from "./Browse";
+import Login from "./Login";
 import { Nav, NavItem, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 
 import adminPage from "./adminStuff/adminPage";
@@ -82,142 +85,6 @@ class RentCar extends Component {
     }
 }
 
-class ShowCars extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            AllCars: [],
-            list: [],
-            doors: "",
-            seats: "",
-            make: "",
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.ResetFilters = this.ResetFilters.bind(this);
-        this.Onsubmit = this.Onsubmit.bind(this);
-    }
-    componentDidMount() {
-        facade.fetchAllCars().then(res => this.setState({ AllCars: res }));
-        facade.fetchAllCars().then(res => this.setState({ list: res }));
-
-    }
-    handleChange(event) {
-        this.setState({ value: event.target.value });
-    }
-
-    Onsubmit() {
-        if (this.state.doors != "") {
-            console.log(this.state.doors);
-           // var list2 = sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list);
-            //t his.setState({ list: list2})
-            this.setState({list: sort.sortCarsByDoors(parseInt(this.state.doors), this.state.list)});
-        }
-        if (this.state.seats != "") {
-            var list2 = sort.sortCarsBySeats(parseInt(this.state.seats), this.state.list);
-            this.setState({ list: list2 })
-        }
-        if (this.state.make != "") {
-            var list2 = sort.sortCarsByIsMake(this.state.make, this.state.list);
-            this.setState({ list: list2 })
-        }
-
-    }
-    ResetFilters(event) {
-        this.setState({ list: this.state.AllCars })
-        this.refs.form.reset();
-    }
-
-    search(event){
-        if(event.target.value == "")
-            this.setState({ list: this.state.AllCars});
-        else
-            this.setState({ list: search.filterCarsBySearch(event.target.value, this.state.AllCars)});
-    }
-
-    render() {
-
-        var cars = this.state.list;
-        console.log(cars);
-        var linkTable = cars.map((car) => {
-            return (
-                <tr scope="row" key={car.regno}>
-                    <td>{car.make}</td>
-                    <td>{car.model}</td>
-                    <td>{car.location}</td>
-                    <td>{car.priceperday}</td>
-                    <td><Link to={`details/${car.regno}`} class="btn btn-success">Show Details</Link></td>
-                    <td><Link to="/showcars" class="btn btn-success">Book</Link></td>
-                    <td><Link to="/compare" class="btn btn-success">Compare</Link></td>
-                </tr>
-            )
-        });
-
-        return (
-            <container>
-                <div className="">
-                    <div className="col-sm-2">
-                        <form onChange={this.handleChange} ref="form">
-                            <FormGroup>
-                                <Label for="BrandFilter">Brand</Label>
-                                <Input type="select" name="BrandFilter" id="BrandFilter" onChange={e => this.setState({ make: e.target.value })}>
-                                    <option></option>
-                                    <option>Toyota</option>
-                                    <option>Opel</option>
-                                </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="DoorFilter">Doors</Label>
-                                <Input type="select" name="DoorFilter" id="DoorFilter" onChange={e => this.setState({ doors: e.target.value })}>
-                                    <option></option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Input>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="SeatFilter">Seats</Label>
-                                <Input type="select" name="SeatFilter" id="SeatFilter" onChange={e => this.setState({ seats: e.target.value })}>
-                                    <option></option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Input>
-                            </FormGroup>
-                            <Button onClick={this.Onsubmit}>Submit</Button>
-                        </form>
-                        <Button onClick={this.ResetFilters} >Reset Filters</Button>
-                    </div>
-                    <div className="col-sm-2"></div>
-                    <div className="col-sm-8">
-                    <Input type="text" name="search" id="search" placeholder="Search" onChange={this.search.bind(this)}/>
-                        <div className="well well-sm"> <h3> List of Cars</h3> </div>
-                        <table className="table" key="tableList">
-                            <tbody>
-                                <tr>
-                                    <th scope="col">Make</th>
-                                    <th scope="col">Model</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Price Per Day</th>
-                                    <th scope="col">Details</th>
-                                    <th scope="col">Booking</th>
-                                </tr>
-                                {linkTable}
-                            </tbody>
-                        </table>
-                        <br />
-
-                        <Link to="/" className="btn btn-info btn-md">Back</Link>
-
-                    </div>
-                    <div class="col-sm-2"></div>
-                </div>
-            </container>
-
-        )
-    }
-}
 
 class CarDetails extends Component {
     constructor(props) {
@@ -292,6 +159,19 @@ class Header extends Component {
         super(props);
 
     }
+
+    loginLogoutMenu()
+    {
+        if(facade.loggedIn())
+            return(<NavItem>
+                <NavLink exact to="/"> Logout </NavLink>
+            </NavItem>);
+        else
+            return(<NavItem>
+                <NavLink exact to="/Login"> Login </NavLink>
+            </NavItem>);
+    }
+
     render() {
         return (
             <div>
@@ -316,6 +196,7 @@ class Header extends Component {
                                 <NavItem>
                                     <NavLink exact to="/adminPage"> (Admin Page) </NavLink>
                                 </NavItem>
+                                {this.loginLogoutMenu()}
                             </Nav>
                         </Col>
                     </Row>
@@ -475,7 +356,10 @@ class Compare extends Component {
     }
 }
 
-
+const Logout = () =>{
+    facade.logout();
+    return <Redirect push to="/login" />;
+}
 
 class App extends Component {
     constructor(props) {
@@ -500,6 +384,7 @@ class App extends Component {
                             <Route path="/filter" render={() => <filter fetchURL={this.state.fetchURL} />} />
                             <Route path="/compare" render={() => <Compare fetchURL={this.state.fetchURL} />} />
                             <Route path="/adminPage" component={adminPage} />
+                            <Route path="/login" component={Login} />
                             <Route component={NoMatch} />
                         </Switch>
                     </Router>

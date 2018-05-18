@@ -12,22 +12,22 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UserPrincipal implements Principal {
- private String username;
+ private String email;
  private List<String> roles = new ArrayList<>();
 
  /* Create a UserPrincipal, given the Entity class User*/
  public UserPrincipal(User user){
-     this.username = user.getUserName();
+     this.email = user.getEmail();
      this.roles = user.getRolesAsStrings();
  }
  public UserPrincipal(String username, String... roles) {
    super();
-   this.username = username;
+   this.email = username;
    this.roles = Arrays.asList(roles);
  }
  @Override
  public String getName() {
-   return username;
+   return email;
  }
  public boolean isUserInRole(String role) {
    return this.roles.contains(role);

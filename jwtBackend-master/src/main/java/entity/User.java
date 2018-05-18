@@ -23,15 +23,15 @@ public class User implements Serializable {
   @Id
   @Basic(optional = false)
   @NotNull
-  @Column(name = "user_name", length = 25)
-  private String userName;
+  @Column(name = "email", length = 25)
+  private String email;
   @Basic(optional = false)
   @NotNull
   @Size(min = 1, max = 255)
   @Column(name = "user_pass")
   private String userPass;
   @JoinTable(name = "user_roles", joinColumns = {
-    @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
+    @JoinColumn(name = "email", referencedColumnName = "email")}, inverseJoinColumns = {
     @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
   @ManyToMany
   private List<Role> roleList = new ArrayList();
@@ -54,17 +54,17 @@ public class User implements Serializable {
         return(BCrypt.checkpw(pw, this.getUserPass()));
     }
 
-  public User(String userName, String userPass) {
-    this.userName = userName;
+  public User(String email, String userPass) {
+    this.email = email;
     this.userPass = userPass;
   }
 
-  public String getUserName() {
-    return userName;
+  public String getEmail() {
+    return email;
   }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public String getUserPass() {

@@ -29,7 +29,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author ezl
  */
-@Path("CarApi")
+@Path("cars")
 public class CarApiResource
 {
     CarFacade carFacade = CarFacade.getInstance();
